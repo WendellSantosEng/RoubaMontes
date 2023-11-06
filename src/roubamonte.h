@@ -111,7 +111,7 @@ void roubaMontep4_p1(MontePlayer1 *monte_p1, MontePlayer4 *monte_p4, Carta *cart
 
 // --> SAIDA
 
-MontePlayer1 *verificaTopo(MontePlayer1 *monte_p1, Carta *carta); // Caso o retorno for != NULL , o monte esta sendo roubado
+MontePlayer1 *verificaTopop1(MontePlayer1 *monte_p1, Carta *carta); // Caso o retorno for != NULL , o monte esta sendo roubado
 void zeraCartas(MontePlayer1 *monte_p1); //Apos o roubo do monte, e nescessario n ter mais cartas na Pilha
 
 /*------------------------Monte do Player 2--------------------*/
@@ -129,7 +129,7 @@ void roubaMontep4_p2(MontePlayer2 *monte_p2, MontePlayer4 *monte_p4, Carta *cart
 
 // --> SAIDA
 
-MontePlayer2 *verificaTopo(MontePlayer2 *monte_p2, Carta *carta); // Caso o retorno for != NULL , o monte esta sendo roubado
+MontePlayer2 *verificaTopop2(MontePlayer2 *monte_p2, Carta *carta); // Caso o retorno for != NULL , o monte esta sendo roubado
 void zeraCartas(MontePlayer2 *monte_p2); //Apos o roubo do monte, e nescessario n ter mais cartas na Pilha
 
 /*------------------------Monte do Player 3--------------------*/
@@ -147,7 +147,7 @@ void roubaMontep4_p3(MontePlayer3 *monte_p3, MontePlayer4 *monte_p4, Carta *cart
 
 // --> SAIDA
 
-MontePlayer3 *verificaTopo(MontePlayer3 *monte_p3, Carta *carta); // Caso o retorno for != NULL , o monte esta sendo roubado
+MontePlayer3 *verificaTopop3(MontePlayer3 *monte_p3, Carta *carta); // Caso o retorno for != NULL , o monte esta sendo roubado
 void zeraCartas(MontePlayer3 *monte_p3); //Apos o roubo do monte, e nescessario n ter mais cartas na Pilha
 
 /*------------------------Monte do Player 4--------------------*/
@@ -165,7 +165,7 @@ void roubaMontep3_p4(MontePlayer4 *monte_p4, MontePlayer3 *monte_p3, Carta *cart
 
 // --> SAIDA
 
-MontePlayer4 *verificaTopo(MontePlayer4 *monte_p4, Carta *carta); // Caso o retorno for != NULL , o monte esta sendo roubado
+MontePlayer4 *verificaTopop4(MontePlayer4 *monte_p4, Carta *carta); // Caso o retorno for != NULL , o monte esta sendo roubado
 void zeraCartas(MontePlayer4 *monte_p4); //Apos o roubo do monte, e nescessario n ter mais cartas na Pilha
 
 /*------------------------Area do Descarte--------------------*/
