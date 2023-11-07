@@ -26,12 +26,6 @@ MonteBaralho *criaMonteCompra(int quant_jog){
                 monte_baralho->topo = carta_baralho;
             }
         }
-        if(quant_jog == 2){
-            monte_baralho->quant == 52;
-            break;
-        }else if(quant_jog > 2){
-            monte_baralho->quant == 104;
-        }
         repeat++;
     };
     return monte_baralho;
@@ -71,14 +65,12 @@ void embaralha(MonteBaralho *monte_compra){
 Carta *compra(MonteBaralho *monte_compra){
 
     Carta *carta;
-    MonteBaralho *aux;
+    CartaMonteBaralho *aux;
     aux = monte_compra->topo;
 
-    carta = monte_compra->topo;
+    carta = monte_compra->topo->carta;
     monte_compra ->topo = monte_compra->topo->anterior;
     free(aux);
-
-    monte_compra->quant --;
 
     return carta;
 }
@@ -96,6 +88,7 @@ MontePlayer *criaMontePlayer(){
     monte = (MontePlayer *)malloc(sizeof(MontePlayer));
     monte->topo = NULL;
     monte->quant = 0;
+    return monte;
 }
 
 void deletaMontePlayerConteudo(MontePlayer *monte){
@@ -140,7 +133,6 @@ int empilhaDescarte(MontePlayer *monte, Carta *carta_comprada, Carta *carta_desc
 
     printf("A Carta comprada e: %d de %d\n", carta_comprada->valor, carta_comprada->naipe);
     printf("A Carta do descarte e: %d de %d\n", carta_descarte->valor, carta_descarte->naipe);
-    printf("Ambas agora estao em meu monte.");
 
     for(int i=0; i<2; i++){
         CartaMontePlayer *carta_nova;
@@ -154,9 +146,13 @@ int empilhaDescarte(MontePlayer *monte, Carta *carta_comprada, Carta *carta_desc
         monte->topo = carta_nova;
         monte->quant++;
     }
+    printf("Ambas agora estao em meu monte.");
+    return 1;
 }
 
 int verificaTopoMonte(MontePlayer *monte_p1, MontePlayer *monte_p2, MontePlayer *monte_p3, MontePlayer *monte_p4, Carta *carta_comprada, int vez){
+
+    int ver = 0;
 
     printf("A carta comprada e: %d de %d\n",  carta_comprada->valor, carta_comprada->naipe);
 
@@ -165,13 +161,13 @@ int verificaTopoMonte(MontePlayer *monte_p1, MontePlayer *monte_p2, MontePlayer 
         printf("O topo do monte do jogador 1 e:  %d de %d\n", monte_p1->topo->carta->valor, monte_p1->topo->carta->naipe);
 
         if(vez == 2){
-            roubaMonte(monte_p2, monte_p1, carta_comprada);
+            ver = roubaMonte(monte_p2, monte_p1, carta_comprada);
             printf("Monte do jogador 1 roubado. O topo do seu monte agora e %d de %d\n", monte_p2->topo->carta->valor, monte_p2->topo->carta->naipe);
         }else if(vez == 3){
-            roubaMonte(monte_p3, monte_p1, carta_comprada);
+            ver = roubaMonte(monte_p3, monte_p1, carta_comprada);
             printf("Monte do jogador 1 roubado. O topo do seu monte agora e %d de %d\n", monte_p3->topo->carta->valor, monte_p3->topo->carta->naipe);
         }else if(vez == 4){
-            roubaMonte(monte_p4, monte_p1, carta_comprada);
+            ver = roubaMonte(monte_p4, monte_p1, carta_comprada);
             printf("Monte do jogador 1 roubado. O topo do seu monte agora e %d de %d\n", monte_p4->topo->carta->valor, monte_p4->topo->carta->naipe);
         }
     }else if((carta_comprada->valor == monte_p2->topo->carta->valor && vez != 2)){
@@ -179,13 +175,13 @@ int verificaTopoMonte(MontePlayer *monte_p1, MontePlayer *monte_p2, MontePlayer 
         printf("O topo do monte do jogador 2 e:  %d de %d\n", monte_p2->topo->carta->valor, monte_p2->topo->carta->naipe);
 
         if(vez == 1){
-            roubaMonte(monte_p1, monte_p2, carta_comprada);
+            ver = roubaMonte(monte_p1, monte_p2, carta_comprada);
             printf("Monte do jogador 2 roubado. O topo do seu monte agora e %d de %d\n", monte_p1->topo->carta->valor, monte_p1->topo->carta->naipe);
         }else if(vez == 3){
-            roubaMonte(monte_p3, monte_p2, carta_comprada);
+            ver = roubaMonte(monte_p3, monte_p2, carta_comprada);
             printf("Monte do jogador 2 roubado. O topo do seu monte agora e %d de %d\n", monte_p3->topo->carta->valor, monte_p3->topo->carta->naipe);
         }else if(vez == 4){
-            roubaMonte(monte_p4, monte_p2, carta_comprada);
+            ver = roubaMonte(monte_p4, monte_p2, carta_comprada);
             printf("Monte do jogador 2 roubado. O topo do seu monte agora e %d de %d\n", monte_p4->topo->carta->valor, monte_p4->topo->carta->naipe);
         }
     }else if((monte_p3->topo != NULL) && (carta_comprada->valor == monte_p3->topo->carta->valor) && (vez != 3)){
@@ -193,13 +189,13 @@ int verificaTopoMonte(MontePlayer *monte_p1, MontePlayer *monte_p2, MontePlayer 
         printf("O topo do monte do jogador 3 e:  %d de %d\n", monte_p3->topo->carta->valor, monte_p3->topo->carta->naipe);
         
         if(vez == 1){
-            roubaMonte(monte_p1, monte_p3, carta_comprada);
+            ver = roubaMonte(monte_p1, monte_p3, carta_comprada);
             printf("Monte do jogador 3 roubado. O topo do seu monte agora e %d de %d\n", monte_p1->topo->carta->valor, monte_p1->topo->carta->naipe);
         }else if(vez == 2){
-            roubaMonte(monte_p2, monte_p3, carta_comprada);
+            ver = roubaMonte(monte_p2, monte_p3, carta_comprada);
             printf("Monte do jogador 3 roubado. O topo do seu monte agora e %d de %d\n", monte_p2->topo->carta->valor, monte_p2->topo->carta->naipe);
         }else if(vez == 4){
-            roubaMonte(monte_p4, monte_p3, carta_comprada);
+            ver = roubaMonte(monte_p4, monte_p3, carta_comprada);
             printf("Monte do jogador 3 roubado. O topo do seu monte agora e %d de %d\n", monte_p4->topo->carta->valor, monte_p4->topo->carta->naipe);
         }
     }else if((monte_p4->topo != NULL) && (carta_comprada->valor == monte_p4->topo->carta->valor && vez != 4)){
@@ -207,31 +203,36 @@ int verificaTopoMonte(MontePlayer *monte_p1, MontePlayer *monte_p2, MontePlayer 
         printf("O topo do monte do jogador 4 e:  %d de %d\n", monte_p4->topo->carta->valor, monte_p4->topo->carta->naipe);
 
         if(vez == 1){
-            roubaMonte(monte_p1, monte_p4, carta_comprada);
+            ver = roubaMonte(monte_p1, monte_p4, carta_comprada);
             printf("Monte do jogador 4 roubado. O topo do seu monte agora e %d de %d\n", monte_p1->topo->carta->valor, monte_p1->topo->carta->naipe);
         }else if(vez == 2){
-            roubaMonte(monte_p2, monte_p4, carta_comprada);
+            ver = roubaMonte(monte_p2, monte_p4, carta_comprada);
             printf("Monte do jogador 4 roubado. O topo do seu monte agora e %d de %d\n", monte_p2->topo->carta->valor, monte_p2->topo->carta->naipe);
         }else if(vez == 3){
-            roubaMonte(monte_p3, monte_p4, carta_comprada);
+            ver = roubaMonte(monte_p3, monte_p4, carta_comprada);
             printf("Monte do jogador 4 roubado. O topo do seu monte agora e %d de %d\n", monte_p3->topo->carta->valor, monte_p3->topo->carta->naipe);
         }
     }
+    if(ver == 1){
+        return 1;
+    }else{
+        return 0;
+    }
 }
 
-void roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *carta_comprada){
+int roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *carta_comprada){
 
     // DESEMPILHA PRA UMA PILHA AUX
 
-    MontePlayer *aux;
-    aux->topo = NULL;
+    CartaMontePlayer *aux;
 
     while(monte_saida->topo != NULL){
         CartaMontePlayer *novo;
+        novo = (CartaMontePlayer *)malloc(sizeof(CartaMontePlayer));
 
         novo->carta = monte_saida->topo->carta;
-        novo->anterior = aux->topo;
-        aux->topo = novo;
+        novo->anterior = aux;
+        aux = novo;
 
         free(monte_saida->topo);
 
@@ -242,14 +243,15 @@ void roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *car
 
     // DESMPILHA AUX PARA A PILHA DO JOGADOR QUE ROUBOU
 
-    while(aux->topo != NULL){
+    while(aux != NULL){
         CartaMontePlayer *novo;
+        novo = (CartaMontePlayer *)malloc(sizeof(CartaMontePlayer));
 
-        novo->carta = aux->topo->carta;
+        novo->carta = aux->carta;
         novo->anterior = monte_destino->topo;
         monte_destino->topo = novo;
 
-        aux->topo = aux->topo->anterior;
+        aux = aux->anterior;
 
         monte_destino->quant ++;
     };
@@ -258,11 +260,14 @@ void roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *car
     // COLOCA A CARTA COMPRADA NO TOPO
 
     CartaMontePlayer *novo;
+    novo = (CartaMontePlayer *)malloc(sizeof(CartaMontePlayer));
 
     novo->carta = carta_comprada;
     novo->anterior = monte_destino->topo;
     monte_destino->topo = novo;
     monte_destino->quant ++;
+
+    return 1;
 }
 
 /*--------------------------------FUNÇÕES DO DESCARTE--------------------------------*/
@@ -274,12 +279,13 @@ Descarte *criaDescarte(){
     if(descarte != NULL){
         descarte->inicio = NULL;
     }
+    return descarte;
 }
 
 void deletaDescarte(Descarte *descarte){
     while(descarte->inicio != NULL){
-        Descarte *aux;
-        aux->inicio = descarte->inicio;
+        CartaDescarte *aux;
+        aux = descarte->inicio;
         descarte->inicio = descarte->inicio->prox;
         free(aux);
     }
@@ -297,7 +303,7 @@ void descartaCarta(Descarte *descarte, Carta *carta){ // INSERÇÃO NO INICIO O(
 
 Carta *RetiraCarta(Descarte *descarte, Carta *carta_comprada){
 
-    CartaDescarte *atual, *anterior, *aux, *retorno;
+    CartaDescarte *atual, *anterior, *retorno;
     atual = descarte->inicio;
 
     while(atual->carta->valor != carta_comprada->valor){
@@ -313,7 +319,7 @@ Carta *RetiraCarta(Descarte *descarte, Carta *carta_comprada){
     if(atual == NULL){ // Nao achou no descarte
         return NULL;
     }
-    if(atual->carta->valor = carta_comprada->valor){ // Achou a carta no descarte
+    if(atual->carta->valor == carta_comprada->valor){ // Achou a carta no descarte
 
         anterior->prox = atual->prox;
         retorno = atual;
@@ -326,6 +332,15 @@ Carta *RetiraCarta(Descarte *descarte, Carta *carta_comprada){
 
 
 /*--------------------------------FUNÇÕES DA VITORIA--------------------------------*/
+
+ListaPlayer *criaListaJogadores(){
+    ListaPlayer *lp;
+    lp = (ListaPlayer *)malloc(sizeof(ListaPlayer));
+    if(lp != NULL){
+        lp->inicio = NULL;
+    }
+    return lp;
+}
 
 ListaPlayer *verificaVencedor(ListaPlayer *player, MontePlayer *monte_p1, MontePlayer *monte_p2, MontePlayer *monte_p3, MontePlayer *monte_p4){
 
@@ -380,12 +395,7 @@ ListaVencedor *criaListaVencedor(){
         lv->inicio = NULL;
         return lv;
     }
-}
-
-void trocarCarta(Carta *a, Carta *b){
-    Carta temp = *a;
-    *a = *b;
-    *b = temp;
+    return lv;    
 }
 
 void copiaCartasVencedor(ListaVencedor *lista_vencedor, MontePlayer *monte_vencedor){
@@ -397,8 +407,6 @@ void copiaCartasVencedor(ListaVencedor *lista_vencedor, MontePlayer *monte_vence
         CartaListaVencedor *novo_vencedor;
         novo_vencedor = (CartaListaVencedor *)malloc(sizeof(CartaListaVencedor));
 
-        MontePlayer *aux;
-
         novo_vencedor->carta = monte_vencedor->topo->carta;
         monte_vencedor->topo = monte_vencedor->topo->anterior;
 
@@ -409,6 +417,14 @@ void copiaCartasVencedor(ListaVencedor *lista_vencedor, MontePlayer *monte_vence
             lista_vencedor->inicio = novo_vencedor;
         }
     }
+}
+
+// ALGORITMO BUBBLE SORT - ORDENAÇÃO DE CARTA
+
+void trocarCarta(Carta *a, Carta *b){
+    Carta temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
 void ordenaCartas(ListaVencedor *lista_vencedor){
@@ -429,12 +445,12 @@ void ordenaCartas(ListaVencedor *lista_vencedor){
         while (ptr1->prox != lptr) {
             // Compara os valores das cartas
             if(ptr1->carta->valor > ptr1->prox->carta->valor){
-                trocar(ptr1->carta, ptr1->prox->carta);
+                trocarCarta(ptr1->carta, ptr1->prox->carta);
                 trocado = 1;
             }
             // Se os valores são iguais, compara os naipes
             else if (ptr1->carta->valor == ptr1->prox->carta->valor && ptr1->carta->naipe > ptr1->prox->carta->naipe){
-                trocar(ptr1->carta, ptr1->prox->carta);
+                trocarCarta(ptr1->carta, ptr1->prox->carta);
                 trocado = 1;
             }
 
@@ -444,6 +460,8 @@ void ordenaCartas(ListaVencedor *lista_vencedor){
     }while(trocado);
 }
 
+// IMPRIMINDO A LISTA DE CARTAS
+
 void imprimirLista(ListaVencedor *lista){
     CartaListaVencedor *atual = lista->inicio;
     while(atual != NULL){
@@ -451,6 +469,8 @@ void imprimirLista(ListaVencedor *lista){
         atual = atual->prox;
     }
 }
+
+// ALGORITMO BUBBLE SORT - ORDENAÇÃO DE JOGADOR
 
 void trocarJogador(Jogador *a, Jogador *b){
     Jogador temp = *a;
@@ -463,7 +483,6 @@ void ordenarListaJogadores(ListaPlayer *lista){
     Jogador *ptr1;
     Jogador *lptr = NULL;
 
-    // Verifica se a lista está vazia
     if (lista->inicio == NULL)
         return;
     do{
@@ -473,7 +492,7 @@ void ordenarListaJogadores(ListaPlayer *lista){
         while (ptr1->prox != lptr) {
             // Compara as quantidades de cartas dos jogadores
             if (ptr1->quant_carta > ptr1->prox->quant_carta) {
-                trocar(ptr1, ptr1->prox);
+                trocarJogador(ptr1, ptr1->prox);
                 trocado = 1;
             }
             ptr1 = ptr1->prox;
@@ -481,6 +500,8 @@ void ordenarListaJogadores(ListaPlayer *lista){
         lptr = ptr1;
     }while(trocado);
 }
+
+// IMPRIMINDO O RANKING DE JOGADORES
 
 void imprimirRanking(ListaPlayer *lista){
     Jogador *atual = lista->inicio;
@@ -490,3 +511,4 @@ void imprimirRanking(ListaPlayer *lista){
     }
 }
 
+// FIM DAS FUNÇOES

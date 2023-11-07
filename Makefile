@@ -1,9 +1,9 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -g
-SRC_DIR = exercicio5
+SRC_DIR = src
 SOURCES = $(wildcard $(SRC_DIR)/*.c)
 OBJECTS = $(SOURCES:.c=.o)
-EXECUTABLE = exercicio5
+EXECUTABLE = tst
 
 all: $(EXECUTABLE)
 

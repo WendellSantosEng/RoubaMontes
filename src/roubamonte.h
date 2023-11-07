@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-enum{
+/*enum{
     AS = 1,
     DOIS = 2,
     TRES = 3,
@@ -16,39 +16,7 @@ enum{
     DAMA = 11,
     VALETE = 12,
     REI = 13,
-};
-
-typedef struct MonteBaralho{
-    CartaMonteBaralho *topo;
-    int quant;
-}MonteBaralho;
-
-typedef struct CartaMonteBaralho{
-    Carta *carta;
-    struct CartaMonteBaralho *anterior;
-}CartaMonteBaralho;
-
-
-typedef struct MontePlayer{
-    CartaMontePlayer *topo;
-    int quant;
-}MontePlayer;
-
-typedef struct CartaMontePlayer{
-    Carta *carta;
-    struct CartaMontePlayer *anterior;
-}CartaMontePlayer;
-
-typedef struct Descarte{
-    CartaDescarte *inicio;
-}Descarte;
-
-typedef struct CartaDescarte{
-    Carta *carta;
-    struct CartaDescarte *prox;
-    int quant;
-}CartaDescarte;
-
+};*/
 
 typedef struct Carta{
     int valor;
@@ -56,19 +24,45 @@ typedef struct Carta{
 }Carta;
 
 
-typedef struct ListaVencedor{
-    CartaListaVencedor *inicio;
-}ListaVencedor;
+typedef struct CartaMonteBaralho{
+    Carta *carta;
+    struct CartaMonteBaralho *anterior;
+}CartaMonteBaralho;
+
+typedef struct MonteBaralho{
+    CartaMonteBaralho *topo;
+}MonteBaralho;
+
+typedef struct CartaMontePlayer{
+    Carta *carta;
+    struct CartaMontePlayer *anterior;
+}CartaMontePlayer;
+
+typedef struct MontePlayer{
+    CartaMontePlayer *topo;
+    int quant;
+}MontePlayer;
+
+
+typedef struct CartaDescarte{
+    Carta *carta;
+    struct CartaDescarte *prox;
+    int quant;
+}CartaDescarte;
+typedef struct Descarte{
+    CartaDescarte *inicio;
+}Descarte;
+
 
 typedef struct CartaListaVencedor{
     Carta *carta;
     struct CartaListaVencedor *prox;
 }CartaListaVencedor;
 
+typedef struct ListaVencedor{
+    CartaListaVencedor *inicio;
+}ListaVencedor;
 
-typedef struct ListaPlayer{
-    Jogador *inicio;
-}ListaPlayer;
 
 typedef struct Jogador{
     char nome[30];
@@ -76,6 +70,10 @@ typedef struct Jogador{
     int quant_jogador;
     int quant_carta;
 }Jogador;
+
+typedef struct ListaPlayer{
+    Jogador *inicio;
+}ListaPlayer;
 
 /*------------------------Pilha monte de compras--------------------*/
 
@@ -94,7 +92,7 @@ void deletaMontePlayerStruct(MontePlayer *monte);
 int empilhaCarta(MontePlayer *monte, Carta *carta); //Topo do monte igual a carta comprada
 int empilhaDescarte(MontePlayer *monte, Carta *carta_comprada, Carta *carta_descarte); // Empilhar no meu monte a carta do descarte e a comprada
 int verificaTopoMonte(MontePlayer *monte_p1, MontePlayer *monte_p2, MontePlayer *monte_p3, MontePlayer *monte_p4, Carta *carta_comprada, int vez); //Rouba monte do jogador
-void roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *carta_comprada);
+int roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *carta_comprada);
 
 /*------------------------Area do Descarte--------------------*/
 
@@ -115,7 +113,10 @@ Carta *RetiraCarta(Descarte *descarte, Carta *carta_comprada); // Verifica o des
 /*---------------------------------------------------------------------------------------*/
 
 
-/*------------------------VITORIA--------------------*/ 
+/*------------------------VITORIA--------------------*/
+
+ListaPlayer *criaListaJogadores();
+
 ListaPlayer *verificaVencedor(ListaPlayer *player, MontePlayer *monte_p1, MontePlayer *monte_p2, MontePlayer *monte_p3, MontePlayer *monte_p4); // Verifica qual monte tem mais cartas
 
 ListaVencedor *criaListaVencedor();
