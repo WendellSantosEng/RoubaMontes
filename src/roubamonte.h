@@ -20,51 +20,24 @@ enum{
 
 typedef struct MonteBaralho{
     CartaMonteBaralho *topo;
+    int quant;
 }MonteBaralho;
 
 typedef struct CartaMonteBaralho{
     Carta *carta;
     struct CartaMonteBaralho *anterior;
-    int quant;
 }CartaMonteBaralho;
 
 
-typedef struct MontePlayer1{
-    CartaMontePlayer1 *topo;
-}MontePlayer1;
+typedef struct MontePlayer{
+    CartaMontePlayer *topo;
+    int quant;
+}MontePlayer;
 
-typedef struct CartaMontePlayer1{
+typedef struct CartaMontePlayer{
     Carta *carta;
-    struct CartaMontePlayer1 *anterior;
-}CartaMontePlayer1;
-
-typedef struct MontePlayer2{
-    CartaMontePlayer2 *topo;
-}MontePlayer2;
-
-typedef struct CartaMontePlayer2{
-    Carta *carta;
-    struct CartaMontePlayer2 *anterior;
-}CartaMontePlayer2;
-
-typedef struct MontePlayer3{
-    CartaMontePlayer3 *topo;
-}MontePlayer3;
-
-typedef struct CartaMontePlayer3{
-    Carta *carta;
-    struct CartaMontePlayer3 *anterior;
-}CartaMontePlayer3;
-
-typedef struct MontePlayer4{
-    CartaMontePlayer4 *topo;
-}MontePlayer4;
-
-typedef struct CartaMontePlayer4{
-    Carta *carta;
-    struct CartaMontePlayer4 *anterior;
-}CartaMontePlayer4;
-
+    struct CartaMontePlayer *anterior;
+}CartaMontePlayer;
 
 typedef struct Descarte{
     CartaDescarte *inicio;
@@ -83,14 +56,14 @@ typedef struct Carta{
 }Carta;
 
 
-typedef struct MonteVencedor{
-    CartaMonteVencedor *inicio;
-}MonteVencedor;
+typedef struct ListaVencedor{
+    CartaListaVencedor *inicio;
+}ListaVencedor;
 
-typedef struct CartaMonteVencedor{
+typedef struct CartaListaVencedor{
     Carta *carta;
-    struct CartaMonteVencedor *prox;
-}CartaMonteVencedor;
+    struct CartaListaVencedor *prox;
+}CartaListaVencedor;
 
 
 typedef struct ListaPlayer{
@@ -112,77 +85,16 @@ void deletaMonteBaralho(MonteBaralho *monte_compra); //Libera a memoria do *Mont
 void embaralha(MonteBaralho *monte_compra); //Algoritimo de embaralhamento de Pilha
 Carta *compra(MonteBaralho *monte_compra); //Realiza a "compra" de uma carta, retorna uma *carta
 
-/*------------------------Monte do Player 1--------------------*/
+/*------------------------Manipulação dos montes--------------------*/
 
-// --> ENTRADA
+MontePlayer *criaMontePlayer(); //Cria monte do jogador
+void deletaMontePlayerConteudo(MontePlayer *monte);
+void deletaMontePlayerStruct(MontePlayer *monte);
 
-MontePlayer1 *criaMontePlayer1(); //Cria monte do jogador
-void deletaMontePlayer1(MontePlayer1 *monte_p1);
-
-void empilhaCartap1(MontePlayer1 *monte_p1, Carta *carta); //Topo do monte igual a carta comprada
-void empilhaDescartep1(MontePlayer1 *monte_p1, Carta *carta_comprada, Carta *carta_descarte); // Carta do Descarte, igual a carta comprada
-void roubaMontep2_p1(MontePlayer1 *monte_p1, MontePlayer2 *monte_p2, Carta *carta_comprada); //Rouba monte do jogador 2
-void roubaMontep3_p1(MontePlayer1 *monte_p1, MontePlayer3 *monte_p3, Carta *carta_comprada); //Rouba monte do jogador 3
-void roubaMontep4_p1(MontePlayer1 *monte_p1, MontePlayer4 *monte_p4, Carta *carta_comprada); //Rouba monte do jogador 4
-
-// --> SAIDA
-
-MontePlayer1 *verificaTopop1(MontePlayer1 *monte_p1, Carta *carta); // Caso o retorno for != NULL , o monte esta sendo roubado
-void zeraCartasp1(MontePlayer1 *monte_p1); //Apos o roubo do monte, e nescessario n ter mais cartas na Pilha
-
-/*------------------------Monte do Player 2--------------------*/
-
-// --> ENTRADA
-
-MontePlayer2 *criaMontePlayer2(); //Cria monte do jogador XXXXXXXXX
-void deletaMontePlayer2(MontePlayer2 *monte_p2); // XXXXXXX
-
-void empilhaCartap2(MontePlayer2 *monte_p2, Carta *carta); //A jogada foi efetuada com sucesso
-void empilhaDescartep2(MontePlayer2 *monte_p2, Carta *carta_comprada, Carta *carta_descarte); // Carta do Descarte, igual a carta comprada
-void roubaMontep1_p2(MontePlayer2 *monte_p2, MontePlayer1 *monte_p1, Carta *carta_comprada); //Rouba monte do jogador 1
-void roubaMontep3_p2(MontePlayer2 *monte_p2, MontePlayer3 *monte_p3, Carta *carta_comprada); //Rouba monte do jogador 3
-void roubaMontep4_p2(MontePlayer2 *monte_p2, MontePlayer4 *monte_p4, Carta *carta_comprada); //Rouba monte do jogador 4
-
-// --> SAIDA
-
-MontePlayer2 *verificaTopop2(MontePlayer2 *monte_p2, Carta *carta); // Caso o retorno for != NULL , o monte esta sendo roubado
-void zeraCartasp2(MontePlayer2 *monte_p2); //Apos o roubo do monte, e nescessario n ter mais cartas na Pilha
-
-/*------------------------Monte do Player 3--------------------*/
-
-// --> ENTRADA
-
-MontePlayer3 *criaMontePlayer3(); //Cria monte do jogador
-void deletaMontePlayer3(MontePlayer3 *monte_p3);
-
-void empilhaCartap3(MontePlayer3 *monte_p3, Carta *carta); //A jogada foi efetuada com sucesso
-void empilhaDescartep3(MontePlayer3 *monte_p3, Carta *carta_comprada, Carta *carta_descarte); // Carta do Descarte, igual a carta comprada
-void roubaMontep1_p3(MontePlayer3 *monte_p3, MontePlayer1 *monte_p1, Carta *carta_comprada); //Rouba monte do jogador 1
-void roubaMontep2_p3(MontePlayer3 *monte_p3, MontePlayer2 *monte_p2, Carta *carta_comprada); //Rouba monte do jogador 2
-void roubaMontep4_p3(MontePlayer3 *monte_p3, MontePlayer4 *monte_p4, Carta *carta_comprada); //Rouba monte do jogador 4
-
-// --> SAIDA
-
-MontePlayer3 *verificaTopop3(MontePlayer3 *monte_p3, Carta *carta); // Caso o retorno for != NULL , o monte esta sendo roubado
-void zeraCartasp3(MontePlayer3 *monte_p3); //Apos o roubo do monte, e nescessario n ter mais cartas na Pilha
-
-/*------------------------Monte do Player 4--------------------*/
-
-// --> ENTRADA
-
-MontePlayer4 *criaMontePlayer4(); //Cria monte do jogador
-void deletaMontePlayer4(MontePlayer4 *monte_p4);
-
-void empilhaCartap4(MontePlayer4 *monte_p4, Carta *carta); //A jogada foi efetuada com sucesso
-void empilhaDescartep4(MontePlayer4 *monte_p4, Carta *carta_comprada, Carta *carta_descarte); // Carta do Descarte, igual a carta comprada
-void roubaMontep1_p4(MontePlayer4 *monte_p4, MontePlayer1 *monte_p1, Carta *carta_comprada); //Rouba monte do jogador 1
-void roubaMontep2_p4(MontePlayer4 *monte_p4, MontePlayer2 *monte_p2, Carta *carta_comprada); //Rouba monte do jogador 2
-void roubaMontep3_p4(MontePlayer4 *monte_p4, MontePlayer3 *monte_p3, Carta *carta_comprada); //Rouba monte do jogador 3
-
-// --> SAIDA
-
-MontePlayer4 *verificaTopop4(MontePlayer4 *monte_p4, Carta *carta); // Caso o retorno for != NULL , o monte esta sendo roubado
-void zeraCartasp4(MontePlayer4 *monte_p4); //Apos o roubo do monte, e nescessario n ter mais cartas na Pilha
+int empilhaCarta(MontePlayer *monte, Carta *carta); //Topo do monte igual a carta comprada
+int empilhaDescarte(MontePlayer *monte, Carta *carta_comprada, Carta *carta_descarte); // Empilhar no meu monte a carta do descarte e a comprada
+int verificaTopoMonte(MontePlayer *monte_p1, MontePlayer *monte_p2, MontePlayer *monte_p3, MontePlayer *monte_p4, Carta *carta_comprada, int vez); //Rouba monte do jogador
+void roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *carta_comprada);
 
 /*------------------------Area do Descarte--------------------*/
 
@@ -191,8 +103,7 @@ void zeraCartasp4(MontePlayer4 *monte_p4); //Apos o roubo do monte, e nescessari
 Descarte *criaDescarte();
 void deletaDescarte(Descarte *descarte);
 
-void descartaCarta(Descarte *descarte, Carta *carta);
-
+void descartaCarta(Descarte *descarte, Carta *carta); // Descarte recebe uma carta
 
 // --> SAIDA
 
@@ -205,13 +116,17 @@ Carta *RetiraCarta(Descarte *descarte, Carta *carta_comprada); // Verifica o des
 
 
 /*------------------------VITORIA--------------------*/ 
-MonteVencedor *verificaVencedor(ListaPlayer *player, MontePlayer1 *monte_p1, MontePlayer2 *monte_p2, MontePlayer3 *monte_p3, MontePlayer4 *monte_p4); // Verifica qual monte tem mais cartas
+ListaPlayer *verificaVencedor(ListaPlayer *player, MontePlayer *monte_p1, MontePlayer *monte_p2, MontePlayer *monte_p3, MontePlayer *monte_p4); // Verifica qual monte tem mais cartas
 
-void ordenaCartas(MonteVencedor *monte_vencedor);
-void imprimeCartas(MonteVencedor *monte_vencedor);
+ListaVencedor *criaListaVencedor();
+void copiaCartasVencedor(ListaVencedor *lista_vencedor, MontePlayer *monte_vencedor);
+void ordenaCartas(ListaVencedor *lista_vencedor);
+void trocarCarta(Carta *a, Carta *b);
+void imprimirLista(ListaVencedor *lista);
 
-void ordenaJogadores(ListaPlayer *player);
-void imprimeRanking(ListaPlayer *player);
+void trocarJogador(Jogador *a, Jogador *b);
+void ordenarListaJogadores(ListaPlayer *lista);
+void imprimirRanking(ListaPlayer *lista);
 
 /*------------------------FIM DE JOGO--------------------*/
 
