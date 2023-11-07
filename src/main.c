@@ -18,20 +18,20 @@ int main(){
         if(quant_jog < 2 || quant_jog > 4){
             printf("A quantidade de jogadores deve ser 2, 3 ou 4");
         }
-    }while(quant_jog < 2 && quant_jog > 4);
+    }while(quant_jog < 2 || quant_jog > 4);
 
     MonteBaralho *monte_baralho;
     monte_baralho = criaMonteCompra(quant_jog);
 
     embaralha(monte_baralho);
 
-    MontePlayer *monte_p1 = NULL;
-    MontePlayer *monte_p2 = NULL;
-    MontePlayer *monte_p3 = NULL;
-    MontePlayer *monte_p4 = NULL;
+    MontePlayer *monte_p1;
+    MontePlayer *monte_p2;
+    MontePlayer *monte_p3;
+    MontePlayer *monte_p4;
 
     for(int i=0;i<quant_jog;i++){
-        if(i=0){
+        if(i==0){
             monte_p1 = criaMontePlayer();
         }else if(i == 1){
             monte_p2 = criaMontePlayer();
@@ -41,7 +41,6 @@ int main(){
             monte_p4 = criaMontePlayer();
         }
     }
-
     Carta *carta_comprada;
     Carta *carta_descarte;
     Descarte *descarte;
@@ -53,22 +52,25 @@ int main(){
             // VEZ DO JOGADOR 1
             carta_comprada = compra(monte_baralho);
             if(carta_comprada != NULL){
-                ver = verificaTopoMonte(monte_p1,monte_p2,monte_p3, monte_p4,carta_comprada,vez);
+                ver = 0; //verificaTopoMonte(monte_p1,monte_p2,monte_p3, monte_p4,carta_comprada,vez,quant_jog);
                 if(ver == 1){
                     printf("\n\nMonte Roubado\n\n");
                 }else{
+                    printf("\n\nnao foi Roubado\n\n");
                     carta_descarte = RetiraCarta(descarte,carta_comprada);
+                    printf("voltou de descarte");
                     if(carta_descarte != NULL){
                         ver = empilhaDescarte(monte_p1, carta_comprada, carta_descarte);
                         if(ver == 1){
                             printf("\n\nCarta do descarte no seu monte\n\n");
+                        }
+                    }else{
+                        ver = empilhaCarta(monte_p1, carta_comprada);
+                        if(ver == 1){
+                            printf("\n\nCarta comprada no seu monte\n\n");
                         }else{
-                            ver = empilhaCarta(monte_p1, carta_comprada);
-                            if(ver == 1){
-                                printf("\n\nCarta comprada no seu monte\n\n");
-                            }else{
-                                descartaCarta(descarte, carta_comprada);
-                            }
+                            descartaCarta(descarte, carta_comprada);
+                            printf("Carta descartada\n\n");
                         }
                     }
                 }
@@ -77,7 +79,7 @@ int main(){
             // VEZ DO JOGADOR 2
             carta_comprada = compra(monte_baralho);
             if(carta_comprada != NULL){
-                ver = verificaTopoMonte(monte_p1,monte_p2,monte_p3, monte_p4,carta_comprada,vez);
+                ver = verificaTopoMonte(monte_p1,monte_p2,monte_p3, monte_p4,carta_comprada,vez,quant_jog);
                 if(ver == 1){
                     printf("\n\nMonte Roubado\n\n");
                 }else{
@@ -101,7 +103,7 @@ int main(){
             // VEZ DO JOGADOR 3
             carta_comprada = compra(monte_baralho);
             if(carta_comprada != NULL){
-                ver = verificaTopoMonte(monte_p1,monte_p2,monte_p3, monte_p4,carta_comprada,vez);
+                ver = verificaTopoMonte(monte_p1,monte_p2,monte_p3, monte_p4,carta_comprada,vez,quant_jog);
                 if(ver == 1){
                     printf("\n\nMonte Roubado\n\n");
                 }else{
@@ -125,7 +127,7 @@ int main(){
             // VEZ DO JOGADOR 4
             carta_comprada = compra(monte_baralho);
             if(carta_comprada != NULL){
-                ver = verificaTopoMonte(monte_p1,monte_p2,monte_p3, monte_p4,carta_comprada,vez);
+                ver = 0; //verificaTopoMonte(monte_p1,monte_p2,monte_p3, monte_p4,carta_comprada,vez,quant_jog);
                 if(ver == 1){
                     printf("\n\nMonte Roubado\n\n");
                 }else{
@@ -148,12 +150,20 @@ int main(){
         }
 
         if(vez == quant_jog){
-            vez == 1;
+            vez = 0;
         }
         if(carta_comprada == NULL){
             break;
         }
     }
+
+    deletaMonteBaralho(monte_baralho);
+    deletaDescarte(descarte);
+    deletaMontePlayerConteudo(monte_p1);
+    deletaMontePlayerConteudo(monte_p2);
+    deletaMontePlayerConteudo(monte_p3);
+    deletaMontePlayerConteudo(monte_p4);
+    deletaMontePlayerStruct(monte_p1);
 
     printf("\nFIM DE JOGO - TESTE\n\n");
 

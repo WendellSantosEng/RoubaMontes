@@ -91,7 +91,7 @@ void deletaMontePlayerStruct(MontePlayer *monte);
 
 int empilhaCarta(MontePlayer *monte, Carta *carta); //Topo do monte igual a carta comprada
 int empilhaDescarte(MontePlayer *monte, Carta *carta_comprada, Carta *carta_descarte); // Empilhar no meu monte a carta do descarte e a comprada
-int verificaTopoMonte(MontePlayer *monte_p1, MontePlayer *monte_p2, MontePlayer *monte_p3, MontePlayer *monte_p4, Carta *carta_comprada, int vez); //Rouba monte do jogador
+int verificaTopoMonte(MontePlayer *monte_p1, MontePlayer *monte_p2, MontePlayer *monte_p3, MontePlayer *monte_p4, Carta *carta_comprada, int vez, int quant_jog); //Rouba monte do jogador
 int roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *carta_comprada);
 
 /*------------------------Area do Descarte--------------------*/
