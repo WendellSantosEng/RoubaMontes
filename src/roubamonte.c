@@ -1,5 +1,8 @@
 #include "roubamonte.h"
 
+/*--------------------------------FUNÇÕES DO MONTE DE COMPRAS--------------------------------*/
+//INICIO
+
 MonteBaralho *criaMonteCompra(int quant_jog){
 
     MonteBaralho *monte_baralho;
@@ -79,4 +82,27 @@ Carta *compra(MonteBaralho *monte_compra){
 void deletaMonteBaralho(MonteBaralho *monte_compra){
     free(monte_compra);
 }
+
+//FIM
+/*--------------------------------FUNÇÕES DO MONTE DO JOGADOR 1--------------------------------*/
+//INICIO
+
+MontePlayer1 *criaMontePlayer1(){
+    MontePlayer1 *monte_p1;
+    monte_p1 = (MontePlayer1 *)malloc(sizeof(MontePlayer1));
+    monte_p1->topo = NULL;
+}
+
+void deletaMontePlayer1(MontePlayer1 *monte_p1){
+    if(monte_p1 != NULL){
+        CartaMontePlayer1 *carta_p1;
+        while(monte_p1->topo != NULL){
+            
+        }
+    }
+}
+
+
+
+
 

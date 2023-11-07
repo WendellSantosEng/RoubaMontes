@@ -134,8 +134,8 @@ void zeraCartasp1(MontePlayer1 *monte_p1); //Apos o roubo do monte, e nescessari
 
 // --> ENTRADA
 
-MontePlayer2 *criaMontePlayer2(); //Cria monte do jogador
-void deletaMontePlayer2(MontePlayer2 *monte_p2);
+MontePlayer2 *criaMontePlayer2(); //Cria monte do jogador XXXXXXXXX
+void deletaMontePlayer2(MontePlayer2 *monte_p2); // XXXXXXX
 
 void empilhaCartap2(MontePlayer2 *monte_p2, Carta *carta); //A jogada foi efetuada com sucesso
 void empilhaDescartep2(MontePlayer2 *monte_p2, Carta *carta_comprada, Carta *carta_descarte); // Carta do Descarte, igual a carta comprada
