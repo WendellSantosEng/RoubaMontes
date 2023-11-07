@@ -63,5 +63,20 @@ void embaralha(MonteBaralho *monte_compra){
     }
 }
 
+Carta *compra(MonteBaralho *monte_compra){
 
+    Carta *carta;
+    MonteBaralho *aux;
+    aux = monte_compra->topo;
+
+    carta = monte_compra->topo;
+    monte_compra ->topo = monte_compra->topo->anterior;
+    free(aux);
+
+    return carta;
+}
+
+void deletaMonteBaralho(MonteBaralho *monte_compra){
+    free(monte_compra);
+}
 
