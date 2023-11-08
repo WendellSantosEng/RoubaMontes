@@ -92,146 +92,119 @@ MontePlayer *criaMontePlayer(){
     return monte;
 }
 
-void deletaMontePlayerConteudo(MontePlayer *monte){
-    if(monte != NULL){
+void deletaMontePlayer(ListaPlayer *lp){
+    while(lp->inicio != NULL){
         CartaMontePlayer *carta_delete;
-        while(monte->topo != NULL){
-            carta_delete = monte->topo;
-            monte->topo = monte->topo->anterior;
+        while(lp->inicio->monte->topo != NULL){
+            carta_delete = lp->inicio->monte->topo;
+            lp->inicio->monte->topo = lp->inicio->monte->topo->anterior;
             free(carta_delete);
         }
+        lp->inicio = lp->inicio->prox;
     }
+    free(lp);
 }
 
-void deletaMontePlayerStruct(MontePlayer *monte){
-    free(monte);
-}
+int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
 
-int empilhaCarta(MontePlayer *monte, Carta *carta){
+    printf("A Carta comprada e: %d de %d\n", carta_comprada->valor, carta_comprada->naipe);
 
-    printf("A Carta comprada e: %d de %d\n", carta->valor, carta->naipe);
-    printf("A carta do topo do seu monte e: %d de %d\n", monte->topo->carta->valor, monte->topo->carta->naipe);
+    Jogador *atual;
+    atual = lista_jogador->inicio;
 
-    if(monte->topo->carta == carta){
-        CartaMontePlayer *carta_nova;
-        carta_nova = (CartaMontePlayer *)malloc(sizeof(CartaMontePlayer));
+    CartaMontePlayer *carta_nova;
 
-        carta_nova->carta = carta;
-        carta_nova->anterior = monte->topo;
+    while(atual->quant_jogador != vez && atual->prox != NULL){
+        printf("A carta do topo do monte do jogador %d e: %d de %d\n", atual->quant_jogador+1 , atual->monte->topo->carta->valor, atual->monte->topo->carta->naipe);
+        atual = atual->prox;
+    } 
+    if(atual->quant_jogador == vez){
 
-        monte->topo = carta_nova;
-        monte->quant ++;
+        if(atual->monte->topo->carta->valor == carta_comprada->valor){
 
-        printf("A carta esta em seu monte agora.\n");
+            carta_nova->carta = carta_comprada;
+            carta_nova->anterior = atual->monte->topo;
 
-        return 1;
+            atual->monte->topo = carta_nova;
+            atual->monte->quant ++;
+
+            printf("A carta esta em seu monte agora.\n");
+
+            return 1;
+        }
     }else{
         return 0;
     }
+    return 0;
 }
 
-int empilhaDescarte(MontePlayer *monte, Carta *carta_comprada, Carta *carta_descarte){
+int empilhaDescarte(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada, Carta *carta_descarte){
 
     printf("A Carta comprada e: %d de %d\n", carta_comprada->valor, carta_comprada->naipe);
     printf("A Carta do descarte e: %d de %d\n", carta_descarte->valor, carta_descarte->naipe);
 
-    for(int i=0; i<2; i++){
-        CartaMontePlayer *carta_nova;
-        carta_nova = (CartaMontePlayer *)malloc(sizeof(CartaMontePlayer));
-        if(i==0){
-            carta_nova->carta = carta_descarte;
-        }else{
-            carta_nova->carta = carta_comprada;
-        }
-        carta_nova->anterior = monte->topo;
-        monte->topo = carta_nova;
-        monte->quant++;
+    Jogador *atual;
+    atual = lista_jogador->inicio;
+    
+    CartaMontePlayer *carta_nova;
+
+    while(atual->quant_jogador != vez && atual->prox != NULL){
+        atual = atual->prox;
     }
-    printf("Ambas agora estao em meu monte.");
-    return 1;
+    if(atual->quant_jogador == vez){
+
+        for(int i=0; i<2; i++){
+
+            if(i==0){
+                carta_nova->carta = carta_descarte;
+            }else{
+                carta_nova->carta = carta_comprada;
+            }
+            carta_nova->anterior = atual->monte->topo;
+            atual->monte->topo = carta_nova;
+            atual->monte->quant++;
+        }
+        printf("Ambas agora estao em meu monte.");
+        return 1;
+    }
+    return 0;
 }
 
-int verificaTopoMonte(MontePlayer *monte_p1, MontePlayer *monte_p2, MontePlayer *monte_p3, MontePlayer *monte_p4, Carta *carta_comprada, int vez, int quant_jog){
+int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
 
-    int ver = 0;
+    Jogador *atual;
+    atual = lista_jogador->inicio;
+
     printf("entrou topo dos montes pra roubar\n");
     printf("A carta comprada e: %d de %d\n",  carta_comprada->valor, carta_comprada->naipe);
 
-    if((carta_comprada->valor == monte_p1->topo->carta->valor) && (vez != 1)){
-
-        printf("entrou rouba monte do 1\n");
-
-        printf("O topo do monte do jogador 1 e:  %d de %d\n", monte_p1->topo->carta->valor, monte_p1->topo->carta->naipe);
-
-        if(vez == 2){
-            ver = roubaMonte(monte_p2, monte_p1, carta_comprada);
-            printf("Monte do jogador 1 roubado. O topo do seu monte agora e %d de %d\n", monte_p2->topo->carta->valor, monte_p2->topo->carta->naipe);
-        }else if(vez == 3){
-            ver = roubaMonte(monte_p3, monte_p1, carta_comprada);
-            printf("Monte do jogador 1 roubado. O topo do seu monte agora e %d de %d\n", monte_p3->topo->carta->valor, monte_p3->topo->carta->naipe);
-        }else if(vez == 4){
-            ver = roubaMonte(monte_p4, monte_p1, carta_comprada);
-            printf("Monte do jogador 1 roubado. O topo do seu monte agora e %d de %d\n", monte_p4->topo->carta->valor, monte_p4->topo->carta->naipe);
-        }
-    }else if((carta_comprada->valor == monte_p2->topo->carta->valor) && (vez != 2)){
-
-        printf("entrou rouba monte do 2\n");
-
-        printf("O topo do monte do jogador 2 e:  %d de %d\n", monte_p2->topo->carta->valor, monte_p2->topo->carta->naipe);
-
-        if(vez == 1){
-            ver = roubaMonte(monte_p1, monte_p2, carta_comprada);
-            printf("Monte do jogador 2 roubado. O topo do seu monte agora e %d de %d\n", monte_p1->topo->carta->valor, monte_p1->topo->carta->naipe);
-        }else if(vez == 3){
-            ver = roubaMonte(monte_p3, monte_p2, carta_comprada);
-            printf("Monte do jogador 2 roubado. O topo do seu monte agora e %d de %d\n", monte_p3->topo->carta->valor, monte_p3->topo->carta->naipe);
-        }else if(vez == 4){
-            ver = roubaMonte(monte_p4, monte_p2, carta_comprada);
-            printf("Monte do jogador 2 roubado. O topo do seu monte agora e %d de %d\n", monte_p4->topo->carta->valor, monte_p4->topo->carta->naipe);
-        }
-    }else if((quant_jog >= 3) && (carta_comprada->valor == monte_p3->topo->carta->valor) && (vez != 3)){
-
-        printf("entrou rouba monte do 3\n");
-
-        printf("O topo do monte do jogador 3 e:  %d de %d\n", monte_p3->topo->carta->valor, monte_p3->topo->carta->naipe);
-        
-        if(vez == 1){
-            ver = roubaMonte(monte_p1, monte_p3, carta_comprada);
-            printf("Monte do jogador 3 roubado. O topo do seu monte agora e %d de %d\n", monte_p1->topo->carta->valor, monte_p1->topo->carta->naipe);
-        }else if(vez == 2){
-            ver = roubaMonte(monte_p2, monte_p3, carta_comprada);
-            printf("Monte do jogador 3 roubado. O topo do seu monte agora e %d de %d\n", monte_p2->topo->carta->valor, monte_p2->topo->carta->naipe);
-        }else if(vez == 4){
-            ver = roubaMonte(monte_p4, monte_p3, carta_comprada);
-            printf("Monte do jogador 3 roubado. O topo do seu monte agora e %d de %d\n", monte_p4->topo->carta->valor, monte_p4->topo->carta->naipe);
-        }
-    }else if((quant_jog == 4) && (carta_comprada->valor == monte_p4->topo->carta->valor && vez != 4)){
-
-        printf("entrou rouba monte do 4\n");
-
-        printf("O topo do monte do jogador 4 e:  %d de %d\n", monte_p4->topo->carta->valor, monte_p4->topo->carta->naipe);
-
-        if(vez == 1){
-            ver = roubaMonte(monte_p1, monte_p4, carta_comprada);
-            printf("Monte do jogador 4 roubado. O topo do seu monte agora e %d de %d\n", monte_p1->topo->carta->valor, monte_p1->topo->carta->naipe);
-        }else if(vez == 2){
-            ver = roubaMonte(monte_p2, monte_p4, carta_comprada);
-            printf("Monte do jogador 4 roubado. O topo do seu monte agora e %d de %d\n", monte_p2->topo->carta->valor, monte_p2->topo->carta->naipe);
-        }else if(vez == 3){
-            ver = roubaMonte(monte_p3, monte_p4, carta_comprada);
-            printf("Monte do jogador 4 roubado. O topo do seu monte agora e %d de %d\n", monte_p3->topo->carta->valor, monte_p3->topo->carta->naipe);
-        }
-    }else{
-        printf("nao entrou em nenhum\n");
+    while(atual->quant_jogador != vez && atual->prox != NULL){
+        atual = atual->prox;
     }
-    
-    if(ver == 1){
-        printf("\nroubado\n");
-        return 1;
-    }else{
-        printf("\nsem estar roubado\n");
-        return 0;
+    if(atual->quant_jogador == vez){
+
+        MontePlayer *monte_da_vez = atual->monte;
+        Jogador *jog_atual;
+        MontePlayer *monte_saida;
+        jog_atual = lista_jogador->inicio;
+
+        while(jog_atual->prox != NULL){
+
+            if(jog_atual->monte->topo->carta->valor == monte_da_vez->topo->carta->valor){
+
+                monte_saida = jog_atual->monte;
+
+                roubaMonte(monte_da_vez, monte_saida, carta_comprada);
+
+                printf("Roubou\n");
+
+                return 1;
+            }
+            
+            jog_atual = jog_atual->prox;
+        }
     }
+    return 0;
 }
 
 int roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *carta_comprada){
@@ -319,7 +292,7 @@ void descartaCarta(Descarte *descarte, Carta *carta){ // INSERÇÃO NO INICIO O(
 Carta *RetiraCarta(Descarte *descarte, Carta *carta_comprada){
 
     printf("entrou retiracartas\n");
-    CartaDescarte *atual, *anterior, *retorno = NULL;
+    CartaDescarte *atual, *anterior, *retorno;
     atual = descarte->inicio;
 
     while(atual->carta->valor != carta_comprada->valor){
@@ -351,6 +324,56 @@ ListaPlayer *criaListaJogadores(){
         lp->inicio = NULL;
     }
     return lp;
+}
+
+void listaJogadores(ListaPlayer *lista_jogador, int quant_jog){
+
+    for(int i=0;i<quant_jog;i++){
+
+        Jogador *novo, *atual;
+        novo = (Jogador *)malloc(sizeof(Jogador));
+        atual = lista_jogador->inicio;
+
+        novo = preencheJogador(lista_jogador, novo, i);
+        novo->prox = NULL;
+
+        if(i == 0){
+            lista_jogador->inicio = novo;
+        }else{
+            while(atual->prox != NULL){
+                atual = atual->prox;
+            }
+            atual->prox = novo;
+        }
+    }
+}
+
+Jogador *preencheJogador(ListaPlayer *lista_jogador, Jogador *novo,int i){
+
+    ListaPlayer *aux;
+
+    printf("Insira o nome do jogador %d: ",i+1);
+    fgets(novo->nome, 30, stdin);
+    setbuf(stdin, NULL);
+    novo->quant_jogador = i;
+    novo->prox = NULL;
+
+    MontePlayer *monte;
+    monte = criaMontePlayer();
+
+    if(lista_jogador->inicio == NULL){
+        lista_jogador->inicio->monte = monte;
+    }else{
+        while(aux->inicio->monte != NULL){
+            aux->inicio->monte = aux->inicio->prox->monte;
+            aux->inicio = aux->inicio->prox;
+        }
+        aux->inicio->monte = monte;
+    }
+
+    novo->monte = aux->inicio->monte;
+
+    return novo;
 }
 
 ListaPlayer *verificaVencedor(ListaPlayer *player, MontePlayer *monte_p1, MontePlayer *monte_p2, MontePlayer *monte_p3, MontePlayer *monte_p4){
