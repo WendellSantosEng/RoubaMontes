@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 /*enum{
     AS = 1,
@@ -65,15 +66,61 @@ typedef struct Descarte{
 }Descarte;
 
 
-typedef struct CartaListaVencedor{
-    Carta *carta;
-    struct CartaListaVencedor *prox;
-}CartaListaVencedor;
+typedef struct JogadorVencedor{
+    Jogador *jogador;
+    int vencedor;
+    struct JogadorVencedor *prox;
+}JogadorVencedor;
 
 typedef struct ListaVencedor{
-    CartaListaVencedor *inicio;
+    JogadorVencedor *inicio;
 }ListaVencedor;
 
+
+
+
+
+
+
+
+
+// LISTA DE CARTAS
+typedef struct ListaCartasdoVencedorELEMENTO{
+    Carta *carta;
+    struct ListaCartasdoVencedorELEMENTO *prox;
+}ListaCartasdoVencedorELEMENTO;
+typedef struct ListaCartasdoVencedorLISTA{
+    ListaCartasdoVencedorELEMENTO *inicio;
+}ListaCartasdoVencedorLISTA;
+
+// JOGADOR(ES) QUE VENCEU(RAM) = ESTRUTURA
+typedef struct JogadorVencedorFinal{
+
+    ListaCartasdoVencedorLISTA *cartas_vencedor;
+    char nome[30];
+    int qual_jog;
+    int quant_cartas;
+
+}JogadorVencedorFinal;
+
+// LISTA QUE CONTEM OS JOGADORES QUE VENCERAM
+typedef struct ListaFinalJogadoresVencedoresELEMENTO{
+    JogadorVencedorFinal *jogador;
+    struct ListaFinalJogadoresVencedoresELEMENTO *prox;
+}ListaFinalJogadoresVencedoresELEMENTO;
+
+typedef struct ListaJogadoresVencedoresLISTA{
+    ListaFinalJogadoresVencedoresELEMENTO *inicio;
+}ListaJogadoresVencedoresLISTA;
+
+
+
+//DESSA FORMA, TENHO UMA LISTA COM JOGADORES QUE VENCERAM, AS QUAIS TEM UM PONTEIRO QUE APONTA PARA O JOGADOR, E SEU ESTRUTURA
+// ESSES JOGADORES , ALEM DE SEUS DADOS TEM UM PONTEIRO PRA CARTAS, A QUAL NESCESSITA SERA SER UMA LISTA DE CARTAS
+// PARA FACILITAR A ORDENAÇÃO
+// ENTAO O VALOR DA CARTA ESTA EM :
+// LISTAVENCEDORELEMENTO = JOGADOR->CARTAS_VENCEDOR->CARTAS->VALOR;
+// LISTA = LISTA->ESTRUTURA->LISTA->ESTRUTURA->INT
 
 
 /*------------------------Pilha monte de compras--------------------*/
@@ -107,24 +154,24 @@ void descartaCarta(Descarte *descarte, Carta *carta); // Descarte recebe uma car
 
 Carta *RetiraCarta(Descarte *descarte, Carta *carta_comprada); // Verifica o descarte e retorna a carta caso a carta_comprada == carta_descarte
 
-
 /*---------------------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------*/
-
 
 /*------------------------VITORIA--------------------*/
 
 ListaPlayer *criaListaJogadores();
 
+ListaJogadoresVencedoresLISTA *criaListaCArtasVencedora();
+
 void listaJogadores(ListaPlayer *lista_jogador, int quant_jog);
 
 Jogador *preencheJogador(ListaPlayer *lista_jogador, Jogador *novo,int i);
 
-ListaPlayer *verificaVencedor(ListaPlayer *player, MontePlayer *monte_p1, MontePlayer *monte_p2, MontePlayer *monte_p3, MontePlayer *monte_p4); // Verifica qual monte tem mais cartas
+ListaVencedor *verificaVencedor(ListaPlayer *lista_jogador); // Verifica qual monte tem mais cartas
 
 ListaVencedor *criaListaVencedor();
-void copiaCartasVencedor(ListaVencedor *lista_vencedor, MontePlayer *monte_vencedor);
+void copiaCartasVencedor(ListaVencedor *lista_vencedor);
 void ordenaCartas(ListaVencedor *lista_vencedor);
 void trocarCarta(Carta *a, Carta *b);
 void imprimirLista(ListaVencedor *lista);

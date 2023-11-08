@@ -1,8 +1,10 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -g
 SRC_DIR = src
+OBJ_DIR = build
+
 SOURCES = $(wildcard $(SRC_DIR)/*.c)
-OBJECTS = $(SOURCES:.c=.o)
+OBJECTS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SOURCES))
 EXECUTABLE = tst
 
 all: $(EXECUTABLE)
@@ -10,8 +12,9 @@ all: $(EXECUTABLE)
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o $@
 
-%.o: %.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(SRC_DIR)/*.o $(EXECUTABLE)
+	rm -f $(OBJ_DIR)/*.o $(EXECUTABLE)
+	
