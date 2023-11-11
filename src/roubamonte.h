@@ -97,6 +97,7 @@ void deletaMontePlayer(ListaPlayer *lp);
 int empilhaCarta(ListaPlayer *lista_jogador, int vez,Carta *carta_comprada); //Topo do monte igual a carta comprada
 int empilhaDescarte(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada, Carta *carta_descarte); // Empilhar no meu monte a carta do descarte e a comprada
 int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez); //Rouba monte do jogador
+int verificaCartaTopo(Jogador *atual,Carta *carta_comprada); // verifica igualdade entre carta comprada e o topo do monte do jogador que e repassado como parametro
 int roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *carta_comprada);
 
 /*------------------------Area do Descarte--------------------*/

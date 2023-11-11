@@ -40,7 +40,7 @@ Jogador *preencheJogador(Jogador *novo,int i){
     fgets(novo->nome, 30, stdin);
     setbuf(stdin,NULL);
 
-    novo->num_jogador = i;
+    novo->num_jogador = i+1;
     novo->venceu = 0;
     novo->monte = criaMontePlayer();
 
