@@ -20,107 +20,65 @@
 };*/
 
 
-typedef struct Carta{
+typedef struct Carta{ //  ESTRUTURA DA CARTA
     int valor;
     int naipe;
 }Carta;
-typedef struct CartaMontePlayer{
+typedef struct CartaMontePlayer{ // ELEMENTO DA PILHA DO MONTE DO JOGADOR
     Carta *carta;
     struct CartaMontePlayer *anterior;
 }CartaMontePlayer;
 
-typedef struct MontePlayer{
+typedef struct MontePlayer{ // PILHA DO MONTE DO JOGADOR
     CartaMontePlayer *topo;
     int quant;
 }MontePlayer;
 
-typedef struct Jogador{
+typedef struct CartaListaBaralhoVencedor{ // ELEMENTO DA LISTA DO MONTE DO JOGADOR -> UTILIZADA CASO O JOG SEJA UM VENCEDOR
+    Carta *carta;
+    struct CartaListaBaralhoVencedor *prox;
+}CartaListaBaralhoVencedor;
+
+typedef struct ListaBaralhoVencedor{ // LISTA DO MONTE DO JOGADOR -> UTILIZADA CASO O JOG SEJA UM VENCEDOR
+    CartaListaBaralhoVencedor *inicio;
+}ListaBaralhoVencedor;
+
+
+
+typedef struct Jogador{ // ELEMENTO JOGADOR DA LISTA DE JOGADORES
     char nome[30];
     struct Jogador *prox;
-    int quant_jogador;
+    int num_jogador;
     int quant_carta;
+    int venceu;
     MontePlayer *monte;
+    ListaBaralhoVencedor *lista;
 }Jogador;
 
-typedef struct ListaPlayer{
+typedef struct ListaPlayer{ // LISTA DA LISTA DE JOGADORES
     Jogador *inicio;
 }ListaPlayer;
 
 
-typedef struct CartaMonteBaralho{
+typedef struct CartaMonteBaralho{ // STRUCT ELEMENTO DO MONTE DE COMPRA
     Carta *carta;
     struct CartaMonteBaralho *anterior;
 }CartaMonteBaralho;
 
 typedef struct MonteBaralho{
-    CartaMonteBaralho *topo;
+    CartaMonteBaralho *topo; // PILHA DO MONTE DE COMPRA
 }MonteBaralho;
 
-
-typedef struct CartaDescarte{
+typedef struct CartaDescarte{ // ELEMENTO DA CARTA DO DESCARTE
     Carta *carta;
     struct CartaDescarte *prox;
 }CartaDescarte;
-typedef struct Descarte{
+typedef struct Descarte{ // LISTA DO DESCARTE
     CartaDescarte *inicio;
 }Descarte;
 
 
-typedef struct JogadorVencedor{
-    Jogador *jogador;
-    int vencedor;
-    struct JogadorVencedor *prox;
-}JogadorVencedor;
 
-typedef struct ListaVencedor{
-    JogadorVencedor *inicio;
-}ListaVencedor;
-
-
-
-
-
-
-
-
-
-// LISTA DE CARTAS
-typedef struct ListaCartasdoVencedorELEMENTO{
-    Carta *carta;
-    struct ListaCartasdoVencedorELEMENTO *prox;
-}ListaCartasdoVencedorELEMENTO;
-typedef struct ListaCartasdoVencedorLISTA{
-    ListaCartasdoVencedorELEMENTO *inicio;
-}ListaCartasdoVencedorLISTA;
-
-// JOGADOR(ES) QUE VENCEU(RAM) = ESTRUTURA
-typedef struct JogadorVencedorFinal{
-
-    ListaCartasdoVencedorLISTA *cartas_vencedor;
-    char nome[30];
-    int qual_jog;
-    int quant_cartas;
-
-}JogadorVencedorFinal;
-
-// LISTA QUE CONTEM OS JOGADORES QUE VENCERAM
-typedef struct ListaFinalJogadoresVencedoresELEMENTO{
-    JogadorVencedorFinal *jogador;
-    struct ListaFinalJogadoresVencedoresELEMENTO *prox;
-}ListaFinalJogadoresVencedoresELEMENTO;
-
-typedef struct ListaJogadoresVencedoresLISTA{
-    ListaFinalJogadoresVencedoresELEMENTO *inicio;
-}ListaJogadoresVencedoresLISTA;
-
-
-
-//DESSA FORMA, TENHO UMA LISTA COM JOGADORES QUE VENCERAM, AS QUAIS TEM UM PONTEIRO QUE APONTA PARA O JOGADOR, E SEU ESTRUTURA
-// ESSES JOGADORES , ALEM DE SEUS DADOS TEM UM PONTEIRO PRA CARTAS, A QUAL NESCESSITA SERA SER UMA LISTA DE CARTAS
-// PARA FACILITAR A ORDENAÇÃO
-// ENTAO O VALOR DA CARTA ESTA EM :
-// LISTAVENCEDORELEMENTO = JOGADOR->CARTAS_VENCEDOR->CARTAS->VALOR;
-// LISTA = LISTA->ESTRUTURA->LISTA->ESTRUTURA->INT
 
 
 /*------------------------Pilha monte de compras--------------------*/
@@ -150,9 +108,11 @@ void deletaDescarte(Descarte *descarte);
 
 void descartaCarta(Descarte *descarte, Carta *carta); // Descarte recebe uma carta
 
+void imprimeDescarte(Descarte *descarte);
+
 // --> SAIDA
 
-Carta *RetiraCarta(Descarte *descarte, Carta *carta_comprada); // Verifica o descarte e retorna a carta caso a carta_comprada == carta_descarte
+int RetiraCarta(ListaPlayer *lista_jogador, int vez, Descarte *descarte, Carta *carta_comprada); // Verifica o descarte e retorna a carta caso a carta_comprada == carta_descarte
 
 /*---------------------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------*/
@@ -162,22 +122,19 @@ Carta *RetiraCarta(Descarte *descarte, Carta *carta_comprada); // Verifica o des
 
 ListaPlayer *criaListaJogadores();
 
-ListaJogadoresVencedoresLISTA *criaListaCArtasVencedora();
-
 void listaJogadores(ListaPlayer *lista_jogador, int quant_jog);
 
-Jogador *preencheJogador(ListaPlayer *lista_jogador, Jogador *novo,int i);
+Jogador *preencheJogador(Jogador *novo,int i);
 
-ListaVencedor *verificaVencedor(ListaPlayer *lista_jogador); // Verifica qual monte tem mais cartas
+Jogador *verificaVencedor(ListaPlayer *lista_jogador); // Verifica qual monte tem mais cartas
 
-ListaVencedor *criaListaVencedor();
-void copiaCartasVencedor(ListaVencedor *lista_vencedor);
-void ordenaCartas(ListaVencedor *lista_vencedor);
-void trocarCarta(Carta *a, Carta *b);
-void imprimirLista(ListaVencedor *lista);
+ListaBaralhoVencedor *criaBaralhoVencedor();
+
+
+/*void trocarCarta(Carta *a, Carta *b);
 
 void trocarJogador(Jogador *a, Jogador *b);
-void ordenarListaJogadores(ListaPlayer *lista);
+void ordenarListaJogadores(ListaPlayer *lista);*/
 void imprimirRanking(ListaPlayer *lista);
 
 /*------------------------FIM DE JOGO--------------------*/

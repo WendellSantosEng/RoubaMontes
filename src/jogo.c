@@ -41,11 +41,11 @@ int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
     CartaMontePlayer *carta_nova;
     carta_nova = (CartaMontePlayer *)malloc(sizeof(CartaMontePlayer));
 
-    while(atual->quant_jogador != vez && atual->prox != NULL){
-        printf("A carta do topo do monte do jogador %d e: %d de %d\n", atual->quant_jogador+1 , atual->monte->topo->carta->valor, atual->monte->topo->carta->naipe);
+    while(atual->num_jogador != vez && atual->prox != NULL){
+        printf("A carta do topo do monte do jogador %d e: %d de %d\n", atual->num_jogador+1 , atual->monte->topo->carta->valor, atual->monte->topo->carta->naipe);
         atual = atual->prox;
     } 
-    if(atual->quant_jogador == vez){
+    if(atual->num_jogador == vez){
 
         if(atual->monte->topo->carta->valor == carta_comprada->valor){
 
@@ -57,6 +57,8 @@ int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
 
             printf("A carta esta em seu monte agora.\n");
 
+            printf("A quantidade de cartas no seu monte e: %d",atual->monte->quant);
+
             return 1;
         }
     }else{
@@ -65,7 +67,7 @@ int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
     return 0;
 }
 
-int empilhaDescarte(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada, Carta *carta_descarte){
+int empilhaDescarte(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada, Carta *carta_descarte) {
 
     printf("A Carta comprada e: %d de %d\n", carta_comprada->valor, carta_comprada->naipe);
     printf("A Carta do descarte e: %d de %d\n", carta_descarte->valor, carta_descarte->naipe);
@@ -73,44 +75,44 @@ int empilhaDescarte(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada, 
     Jogador *atual;
     atual = lista_jogador->inicio;
 
-    if(lista_jogador->inicio == NULL){
+    if (lista_jogador->inicio == NULL || atual->monte->topo == NULL) {
         return 0;
     }
-    if(atual->monte->topo == NULL){
-        return 0;
-    }
-    
-    CartaMontePlayer *carta_nova;
-    carta_nova = (CartaMontePlayer *)malloc(sizeof(CartaMontePlayer));
 
-    while(atual->quant_jogador != vez && atual->prox != NULL){
+    while (atual->num_jogador != vez && atual->prox != NULL) {
         atual = atual->prox;
     }
-    if(atual->quant_jogador == vez){
 
-        for(int i=0; i<2; i++){
+    if (atual->num_jogador == vez) {
+        // Criação e empilhamento da carta do descarte
+        CartaMontePlayer *carta_nova = (CartaMontePlayer *)malloc(sizeof(CartaMontePlayer));
+        carta_nova->carta = carta_descarte;
+        carta_nova->anterior = atual->monte->topo;
+        atual->monte->topo = carta_nova;
+        atual->monte->quant++;
 
-            if(i==0){
-                carta_nova->carta = carta_descarte;
-            }else{
-                carta_nova->carta = carta_comprada;
-            }
-            carta_nova->anterior = atual->monte->topo;
-            atual->monte->topo = carta_nova;
-            atual->monte->quant++;
-        }
-        printf("Ambas agora estao em meu monte.");
+        // Criação e empilhamento da carta comprada
+        CartaMontePlayer *carta_nova2 = (CartaMontePlayer *)malloc(sizeof(CartaMontePlayer));
+        carta_nova2->carta = carta_comprada;
+        carta_nova2->anterior = carta_nova; // Agora a segunda carta é empilhada sobre a primeira
+        atual->monte->topo = carta_nova2;
+        atual->monte->quant++;
+
+        printf("Ambas agora estão em meu monte.\n");
+        printf("A quantidade de cartas no seu monte é: %d\n", atual->monte->quant);
+
         return 1;
+    } else {
+        return 0;
     }
-    return 0;
 }
+
 
 int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
 
     Jogador *atual;
     atual = lista_jogador->inicio;
 
-    printf("entrou topo dos montes pra roubar\n");
     printf("A carta comprada e: %d de %d\n",  carta_comprada->valor, carta_comprada->naipe);
 
     if(lista_jogador->inicio == NULL){
@@ -120,10 +122,10 @@ int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
         return 0;
     }
 
-    while(atual->quant_jogador != vez && atual->prox != NULL){
+    while(atual->num_jogador != vez && atual->prox != NULL){
         atual = atual->prox;
     }
-    if(atual->quant_jogador == vez){
+    if(atual->num_jogador == vez){
 
         MontePlayer *monte_da_vez = atual->monte;
         Jogador *jog_atual;
@@ -139,6 +141,8 @@ int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
                 roubaMonte(monte_da_vez, monte_saida, carta_comprada);
 
                 printf("Roubou\n");
+
+                printf("A quantidade de cartas no seu monte e: %d",atual->monte->quant);
 
                 return 1;
             }

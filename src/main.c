@@ -2,10 +2,7 @@
 
 int main(){
 
-    int quant_jog, ver_tm, ver_ed, ver_ec, cont_rodadas = 0;
-
-    ListaVencedor *lista_vencedor;
-    lista_vencedor = criaListaVencedor();
+    int quant_jog, ver_tm, ver_ec, cont_rodadas = 0, ver_dc;
 
     printf("BEM VINDO AO JOGO ROUBA-MONTES\n\n");
 
@@ -27,69 +24,73 @@ int main(){
 
     Carta *carta_comprada;
     carta_comprada = (Carta *)malloc(sizeof(Carta));
+
     Carta *carta_descarte;
     carta_descarte = (Carta *)malloc(sizeof(Carta));
+
     Descarte *descarte;
     descarte = criaDescarte();
 
     for(int vez = 0; vez < quant_jog; vez++){
 
+        carta_comprada = NULL;
+        carta_descarte = NULL;
         cont_rodadas++;
-        printf("Rodada %d", cont_rodadas);
+        
+        printf("\n---------------------------------------\n");
+        printf("\nRodada %d - ", cont_rodadas);
 
-        printf("Vez do jogador %d",vez+1);
+        printf("Vez do jogador %d\n",vez+1);
 
-        carta_comprada = compra(monte_baralho); 
+        carta_comprada = compra(monte_baralho); // compra uma carta
 
-        if(carta_comprada != NULL){
-            ver_tm = verificaTopoMonte(lista_jogador,carta_comprada,vez);
-            printf("entrou\n");
-            printf("saiu\n");
-
-            if(ver_tm == 1){
+        if(carta_comprada != NULL){ // se a carta comprada for valida
+            ver_tm = verificaTopoMonte(lista_jogador,carta_comprada,vez); // verifica o topo dos outros montes
+            if(ver_tm == 1){ // se tem igual , rouba
                 printf("\n\nMonte Roubado\n\n");
+                vez--; // repete a vez
             }else{
-                printf("\n\nnao foi Roubado\n\n");
-                carta_descarte = RetiraCarta(descarte,carta_comprada);
-                printf("voltou de descarte");
-                if(carta_descarte != NULL){
-                    ver_ed = empilhaDescarte(lista_jogador, vez, carta_comprada, carta_descarte);
-                    if(ver_ed == 1){
-                        printf("\n\nCarta do descarte no seu monte\n\n");
+                printf("\n\nNao achou uma carta igual a comprada, nos outros montes\n");
+
+                ver_dc = RetiraCarta(lista_jogador, vez, descarte, carta_comprada); // retira uma carta do descarte, caso for igual
+
+                if(ver_dc == 1){ // tinha no descarte igual
+                    printf("Carta do descarte e comprada, no seu monte\n");
+                    vez--;
+                }else{ // nao tinha no descarte uma carta igual a comprada
+                    if(carta_descarte != NULL && carta_descarte->valor != carta_comprada->valor){ // tratamento de erro, caso os valores das cartas nao forem os mesmos, entao descarta a carta
+                        descartaCarta(descarte, carta_descarte); // esse if , vai ser retirado depois
+                        printf("Carta retirada errada, de volta no monte descarte\n");
                     }
-                }else{
-                    ver_ec = empilhaCarta(lista_jogador, vez, carta_comprada);
-                    if(ver_ec == 1){
+                    printf("Nenhuma carta no descarte com o mesmo valor\n\n");
+                    ver_ec = empilhaCarta(lista_jogador, vez, carta_comprada); // empilha a carta no meu monte se o topo for igual
+                    if(ver_ec == 1){ // a carta e igual a do topo do meu monte
                         printf("\n\nCarta comprada no seu monte\n\n");
+                        vez--;
                     }else{
-                        descartaCarta(descarte, carta_comprada);
+                        descartaCarta(descarte, carta_comprada); // descarta a carta 
                         printf("Carta descartada\n\n");
                     }
                 }
             }
-        }
+        }else{
 
+            Jogador *venceu;
+            venceu = verificaVencedor(lista_jogador);
+
+            printf("Ganhador: %d\nQuantidade de cartas %d\n",venceu->num_jogador, venceu->quant_carta);
+
+            deletaMonteBaralho(monte_baralho);
+            deletaDescarte(descarte);
+            deletaMontePlayer(lista_jogador);
+
+            printf("\nFIM DE JOGO - TESTE\n\n");
+            break;
+        }
         if(vez == quant_jog-1){
             vez = -1;
         }
-    }
-
-    lista_vencedor = verificaVencedor(lista_jogador);
-
-    ListaCartasVencedora *cartas_vencer;
-    cartas_vencer = criaListaCArtasVencedora();
-
-    copiaCartasVencedor(lista_vencedor);
-
-    ordenaCartas(lista_vencedor);
-
-
-
-    deletaMonteBaralho(monte_baralho);
-    deletaDescarte(descarte);
-    deletaMontePlayer(lista_jogador);
-
-    printf("\nFIM DE JOGO - TESTE\n\n");
+    }    
 
     return 0;
 }

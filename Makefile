@@ -5,7 +5,7 @@ OBJ_DIR = build
 
 SOURCES = $(wildcard $(SRC_DIR)/*.c)
 OBJECTS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SOURCES))
-EXECUTABLE = tst
+EXECUTABLE = t
 
 all: $(EXECUTABLE)
 
