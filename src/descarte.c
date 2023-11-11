@@ -38,26 +38,27 @@ int RetiraCarta(ListaPlayer *lista_jogador, int vez, Descarte *descarte, Carta *
     int ver;
     CartaDescarte *atual = descarte->inicio;
     CartaDescarte *anterior = NULL;
-    Carta *retorno = NULL;
+    Carta *retorno;
+    retorno = (Carta *)malloc(sizeof(Carta));
 
-    while (atual != NULL && atual->carta->valor != carta_comprada->valor) {
+    if(atual == NULL){
+        return 0;
+    }
+
+    while (atual->prox != NULL && atual->carta->valor != carta_comprada->valor) {
         anterior = atual;
         atual = atual->prox;
     }
 
-    if (atual != NULL && atual->carta->valor == carta_comprada->valor) {
+    if (atual->carta->valor == carta_comprada->valor) {
         if (anterior == NULL) {
             descarte->inicio = atual->prox;
         } else {
             anterior->prox = atual->prox;
         }
-
         retorno = atual->carta;
-        free(atual);
-    }
-
-    if (retorno != NULL) {
-        printf("Verificou: %d de %d\n", retorno->valor, retorno->naipe);
+    }else{
+        retorno = NULL;
     }
 
     ver = empilhaDescarte(lista_jogador, vez, carta_comprada, retorno);
@@ -75,17 +76,25 @@ int RetiraCarta(ListaPlayer *lista_jogador, int vez, Descarte *descarte, Carta *
 }
 
 
-void imprimeDescarte(Descarte *descarte){
-
+void imprimeDescarte(Descarte *descarte) {
     CartaDescarte *aux;
     aux = descarte->inicio;
-    int cont=0;
-    if(descarte->inicio == NULL){
+    int cont = 0;
+
+    if (descarte->inicio == NULL) {
+        printf("DESCARTE VAZIO\n");
         return;
     }
-    while(aux->prox != NULL){
-        printf("Carta Descarte numero %d: %d de %d\n", cont+1, aux->carta->valor, aux->carta->naipe);
+
+    while (aux != NULL) {
         cont++;
+        aux = aux->prox;
     }
-    printf("Carta Descarte numero %d: %d de %d\n", cont+1, aux->carta->valor, aux->carta->naipe);
+
+    aux = descarte->inicio;  // Reinicializa aux para o início da lista
+
+    for (int i = 0; i < cont; i++) {
+        printf("Carta Descarte numero %d: %d de %d\n\n", i + 1, aux->carta->valor, aux->carta->naipe);
+        aux = aux->prox;
+    }
 }

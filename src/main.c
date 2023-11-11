@@ -25,16 +25,12 @@ int main(){
     Carta *carta_comprada;
     carta_comprada = (Carta *)malloc(sizeof(Carta));
 
-    Carta *carta_descarte;
-    carta_descarte = (Carta *)malloc(sizeof(Carta));
-
     Descarte *descarte;
     descarte = criaDescarte();
 
     for(int vez = 0; vez < quant_jog; vez++){
 
         carta_comprada = NULL;
-        carta_descarte = NULL;
         cont_rodadas++;
         
         printf("\n---------------------------------------\n");
@@ -58,10 +54,6 @@ int main(){
                     printf("Carta do descarte e comprada, no seu monte\n");
                     vez--;
                 }else{ // nao tinha no descarte uma carta igual a comprada
-                    if(carta_descarte != NULL && carta_descarte->valor != carta_comprada->valor){ // tratamento de erro, caso os valores das cartas nao forem os mesmos, entao descarta a carta
-                        descartaCarta(descarte, carta_descarte); // esse if , vai ser retirado depois
-                        printf("Carta retirada errada, de volta no monte descarte\n");
-                    }
                     printf("Nenhuma carta no descarte com o mesmo valor\n\n");
                     ver_ec = empilhaCarta(lista_jogador, vez, carta_comprada); // empilha a carta no meu monte se o topo for igual
                     if(ver_ec == 1){ // a carta e igual a do topo do meu monte
