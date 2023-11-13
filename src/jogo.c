@@ -26,7 +26,7 @@ void deletaMontePlayer(ListaPlayer *lp){
 
 int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
 
-    printf("A Carta comprada e: %d de %d\n", carta_comprada->valor, carta_comprada->naipe);
+    printf("A Carta comprada carta e: %d de %d\n", carta_comprada->valor, carta_comprada->naipe);
     vez = vez+1;
 
     Jogador *atual;
@@ -38,17 +38,19 @@ int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
     if(atual->monte->topo == NULL){
         return 0;
     }
-
+    int cont =1;
     CartaMontePlayer *carta_nova;
     carta_nova = (CartaMontePlayer *)malloc(sizeof(CartaMontePlayer));
 
-    while(atual->num_jogador != vez && atual->prox != NULL){
+    while(atual->num_jogador != vez && atual != NULL){
         atual = atual->prox;
+        printf("entrou %d", cont);
+        cont++;
     }
     
-    if(atual->num_jogador == vez){
+    if(atual->num_jogador == vez && atual->monte->topo != NULL){
 
-        printf("A carta do topo do monte do jogador %d e: %d de %d\n", atual->num_jogador+1 , atual->monte->topo->carta->valor, atual->monte->topo->carta->naipe);
+        printf("A carta do topo do monte do jogador %d e: %d de %d\n", atual->num_jogador , atual->monte->topo->carta->valor, atual->monte->topo->carta->naipe);
 
         if(atual->monte->topo->carta->valor == carta_comprada->valor){
 
@@ -60,7 +62,7 @@ int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
 
             printf("A carta esta em seu monte agora.\n");
 
-            printf("A quantidade de cartas no seu monte e: %d",atual->monte->quant);
+            printf("A quantidade de cartas no monte do jogador %d e: %d",atual->num_jogador ,atual->monte->quant);
 
             return 1;
         }
@@ -77,8 +79,6 @@ int empilhaDescarte(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada, 
     printf("A Carta comprada e: %d de %d\n", carta_comprada->valor, carta_comprada->naipe);
     if(carta_descarte != NULL){
         printf("A Carta do descarte e: %d de %d\n", carta_descarte->valor, carta_descarte->naipe);
-    }else{
-        printf("DEU RUIM\n");
     }
 
     if(carta_descarte != NULL){
@@ -99,8 +99,8 @@ int empilhaDescarte(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada, 
             atual->monte->topo = carta_nova2;
             atual->monte->quant++;
 
-            printf("Ambas agora estão em meu monte.\n");
-            printf("A quantidade de cartas no seu monte é: %d\n", atual->monte->quant);
+            printf("Ambas agora estao em meu monte.\n");
+            printf("A quantidade de cartas no meu monte e: %d\n", atual->monte->quant);
 
             return 1;
         }
@@ -137,13 +137,17 @@ int empilhaDescarte(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada, 
 
 int verificaCartaTopo(Jogador *atual,Carta *carta_comprada){
 
+    if(atual->monte->topo == NULL){
+        return 0;
+    }
     if(atual->monte->topo->carta->valor == carta_comprada->valor){
         return 1;
+    }else{
+        return 0;
     }
 
     return 0;
 }
-
 
 
 int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
@@ -166,16 +170,17 @@ int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
     //chama a função de verificar topo
     //se retornou 1 , rouba o monte
     MontePlayer *monte_da_vez;
+    monte_da_vez = (MontePlayer *)malloc(sizeof(MontePlayer));
     MontePlayer *monte_saida;
+    monte_saida = (MontePlayer *)malloc(sizeof(MontePlayer));
 
     if(atual->num_jogador == vez){
         monte_da_vez = atual->monte;
     }
 
     Jogador *aux2 = lista_jogador->inicio;
-    Jogador *aux3 = lista_jogador->inicio;
 
-    while(aux2->prox->prox != NULL){
+    while(aux2 != NULL){
 
         if(aux2->num_jogador != vez){
 
@@ -183,15 +188,17 @@ int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
 
             if(ver == 1){
                 monte_saida = aux2->monte;
+
                 roubaMonte(monte_da_vez, monte_saida, carta_comprada);
+
                 return 1;
             }
         }
-
         aux2 = aux2->prox;
     }
 
     return 0;
+}
 
 int roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *carta_comprada){
 
@@ -199,11 +206,10 @@ int roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *cart
 
     MontePlayer *monte_aux;
     monte_aux = criaMontePlayer();
-    
-    CartaMontePlayer *aux;
-
 
     while(monte_saida->topo != NULL){
+
+        CartaMontePlayer *aux;
         CartaMontePlayer *novo;
         novo = (CartaMontePlayer *)malloc(sizeof(CartaMontePlayer));
 
@@ -214,6 +220,7 @@ int roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *cart
         }else{
             novo->anterior = monte_aux->topo;
         }
+
         aux = monte_saida->topo;
 
         monte_saida->topo = monte_saida->topo->anterior;
@@ -224,6 +231,8 @@ int roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *cart
     };
 
     while(monte_aux->topo != NULL){
+
+        CartaMontePlayer *aux;
         CartaMontePlayer *novo;
         novo = (CartaMontePlayer *)malloc(sizeof(CartaMontePlayer));
 
@@ -240,7 +249,7 @@ int roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *cart
 
         free(aux);
         
-        monte_saida->quant --;
+        monte_aux->quant --;
     };
 
     // COLOCA A CARTA COMPRADA NO TOPO

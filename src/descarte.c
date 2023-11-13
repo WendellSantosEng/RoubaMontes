@@ -64,13 +64,8 @@ int RetiraCarta(ListaPlayer *lista_jogador, int vez, Descarte *descarte, Carta *
     ver = empilhaDescarte(lista_jogador, vez, carta_comprada, retorno);
 
     if (ver == 1) {
-        printf("Verificou e retornou 1 pro main\n");
         return 1;
     } else {
-        // Se necessário, liberar memória alocada para retorno
-        // free(retorno);
-        printf("Verificou e retornou 0 pro main\n");
-
         return 0;
     }
 }
@@ -94,7 +89,7 @@ void imprimeDescarte(Descarte *descarte) {
     aux = descarte->inicio;  // Reinicializa aux para o início da lista
 
     for (int i = 0; i < cont; i++) {
-        printf("Carta Descarte numero %d: %d de %d\n\n", i + 1, aux->carta->valor, aux->carta->naipe);
+        printf("Carta Descarte numero %d: %d de %d\n", i + 1, aux->carta->valor, aux->carta->naipe);
         aux = aux->prox;
     }
 }

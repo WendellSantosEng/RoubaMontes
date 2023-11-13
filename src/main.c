@@ -34,34 +34,34 @@ int main(){
         cont_rodadas++;
         
         printf("\n---------------------------------------\n");
-        printf("\nRodada %d - ", cont_rodadas);
+        printf("\n---------------RODADA %d - ", cont_rodadas);
 
-        printf("Vez do jogador %d\n",vez+1);
+        printf("VEZ DO JOGADOR %d---------------\n\n",vez+1);
 
         carta_comprada = compra(monte_baralho); // compra uma carta
 
         if(carta_comprada != NULL){ // se a carta comprada for valida
             ver_tm = verificaTopoMonte(lista_jogador,carta_comprada,vez); // verifica o topo dos outros montes
             if(ver_tm == 1){ // se tem igual , rouba
-                printf("\n\nMonte Roubado\n\n");
+                printf("\n\n ---->>> MONTE ROUBADO\n\n");
                 vez--; // repete a vez
             }else{
-                printf("\n\nNao achou uma carta igual a comprada, nos outros montes\n");
+                printf("\n\n ---->>> NAO EXISTE CARTA DE MESMO VALOR NO TOPO DOS OUTROS MONTES\n");
 
                 ver_dc = RetiraCarta(lista_jogador, vez, descarte, carta_comprada); // retira uma carta do descarte, caso for igual
 
                 if(ver_dc == 1){ // tinha no descarte igual
-                    printf("Carta do descarte e comprada, no seu monte\n");
+                    printf(" ---->>> CARTA DO DESCARTE E COMPRADA EM MEU MONTE\n");
                     vez--;
                 }else{ // nao tinha no descarte uma carta igual a comprada
-                    printf("Nenhuma carta no descarte com o mesmo valor\n\n");
+                    printf(" ---->>> NAO EXISTE CARTA NO DESCARTE COM MESMO VALOR\n\n");
                     ver_ec = empilhaCarta(lista_jogador, vez, carta_comprada); // empilha a carta no meu monte se o topo for igual
                     if(ver_ec == 1){ // a carta e igual a do topo do meu monte
-                        printf("\n\nCarta comprada no seu monte\n\n");
+                        printf("\n\n ---->>> CARTA COMPRADA, EMPILHADA EM MEU MONTE\n\n");
                         vez--;
                     }else{
                         descartaCarta(descarte, carta_comprada); // descarta a carta 
-                        printf("Carta descartada\n\n");
+                        printf(" ---->>> CARTA DESCARTADA\n\n");
                     }
                 }
             }
