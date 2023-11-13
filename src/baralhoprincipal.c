@@ -7,10 +7,17 @@ MonteBaralho *criaMonteCompra(int quant_jog){
     MonteBaralho *monte_baralho;
     monte_baralho = (MonteBaralho *)malloc(sizeof(MonteBaralho));
     monte_baralho->topo = NULL;
+    monte_baralho->quantidade_baralho = 0;
 
     int repeat = 0;
 
-    do{
+    for(int i=0;i<quant_jog;i++){
+        if(i%2 == 1){
+            repeat ++;
+        }
+    }
+
+    while(repeat != 0){
         for(int j=0;j<4;j++){
             for(int k=0;k<13;k++){
                 CartaMonteBaralho *carta_baralho;
@@ -25,9 +32,9 @@ MonteBaralho *criaMonteCompra(int quant_jog){
                 monte_baralho->topo = carta_baralho;
             }
         }
-        repeat++;
-    }while(quant_jog > 2 && repeat < 1);
-
+        monte_baralho->quantidade_baralho ++;
+        repeat--;
+    }
     return monte_baralho;
 }
 

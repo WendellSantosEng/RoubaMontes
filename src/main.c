@@ -20,6 +20,8 @@ int main(){
     MonteBaralho *monte_baralho;
     monte_baralho = criaMonteCompra(quant_jog);
 
+    printf("---------------O JOGO SERA COM %d BARALHO(S)--------------\n\n", monte_baralho->quantidade_baralho);
+
     embaralha(monte_baralho);
 
     Carta *carta_comprada;
@@ -83,6 +85,8 @@ int main(){
             vez = -1;
         }
     }    
+
+    getchar();
 
     return 0;
 }

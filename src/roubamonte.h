@@ -66,6 +66,7 @@ typedef struct CartaMonteBaralho{ // STRUCT ELEMENTO DO MONTE DE COMPRA
 }CartaMonteBaralho;
 
 typedef struct MonteBaralho{
+    int quantidade_baralho;
     CartaMonteBaralho *topo; // PILHA DO MONTE DE COMPRA
 }MonteBaralho;
 
