@@ -19,7 +19,6 @@
     REI = 13,
 };*/
 
-
 typedef struct Carta{ //  ESTRUTURA DA CARTA
     int valor;
     int naipe;
@@ -132,11 +131,14 @@ Jogador *verificaVencedor(ListaPlayer *lista_jogador); // Verifica qual monte te
 
 ListaBaralhoVencedor *criaBaralhoVencedor();
 
+void copiaCartasVencedor(Jogador *vencedor);
 
-/*void trocarCarta(Carta *a, Carta *b);
+void selectionSortCartas(ListaPlayer *lista_jogadores);
 
-void trocarJogador(Jogador *a, Jogador *b);
-void ordenarListaJogadores(ListaPlayer *lista);*/
+void imprimeCartasVencedor(ListaPlayer *lista_jogador);
+
+void ordenarJogadoresPorQuantidadeDeCartas(ListaPlayer *lista_jogadores);
+
 void imprimirRanking(ListaPlayer *lista);
 
 /*------------------------FIM DE JOGO--------------------*/

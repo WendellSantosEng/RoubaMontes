@@ -17,6 +17,8 @@ MonteBaralho *criaMonteCompra(int quant_jog){
         }
     }
 
+    printf("\nREPEAT = %d\n",repeat);
+
     while(repeat != 0){
         for(int j=0;j<4;j++){
             for(int k=0;k<13;k++){

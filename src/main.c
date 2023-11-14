@@ -8,9 +8,6 @@ int main(){
 
     printf("Insira quantos jogadores irao jogar: ");
     scanf("%d",&quant_jog);
-    if(quant_jog < 2 || quant_jog > 4){
-        printf("A quantidade de jogadores deve ser 2, 3 ou 4");
-    }
     
     ListaPlayer *lista_jogador;
     lista_jogador = criaListaJogadores();
@@ -74,6 +71,16 @@ int main(){
 
             printf("Ganhador: %d\nQuantidade de cartas %d\n",venceu->num_jogador, venceu->quant_carta);
 
+            copiaCartasVencedor(venceu);
+            
+            selectionSortCartas(lista_jogador);
+
+            imprimeCartasVencedor(lista_jogador);
+
+            void ordenarJogadoresPorQuantidadeDeCartas(ListaPlayer *lista_jogadores);
+
+            imprimirRanking(lista_jogador);
+
             deletaMonteBaralho(monte_baralho);
             deletaDescarte(descarte);
             deletaMontePlayer(lista_jogador);
@@ -84,7 +91,7 @@ int main(){
         if(vez == quant_jog-1){
             vez = -1;
         }
-    }    
+    }
 
     getchar();
 
