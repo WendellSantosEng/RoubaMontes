@@ -72,8 +72,6 @@ int main(){
             printf("Ganhador: %d\nQuantidade de cartas %d\n",venceu->num_jogador, venceu->quant_carta);
 
             copiaCartasVencedor(venceu);
-            
-            selectionSortCartas(lista_jogador);
 
             imprimeCartasVencedor(lista_jogador);
 

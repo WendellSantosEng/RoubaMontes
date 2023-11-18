@@ -81,62 +81,76 @@ ListaBaralhoVencedor *criaBaralhoVencedor(){
     return lbv;    
 }
 
-void copiaCartasVencedor(Jogador *vencedor){
+void copiaCartasVencedor(Jogador *vencedor) {
+    printf("Entrou copia cartas\n");
 
-    // PASSAR TODA A PILHA DO MONTE VENCEDOR PARA A LISTA;
-    // PASSANDO PRO INICIO DA LISTA O(1)
+    int quant = vencedor->monte->quant;
+    int cont=0;
 
-    ListaBaralhoVencedor *lista;
-    lista = criaBaralhoVencedor();
+    Carta *vetor;
+    vetor = (Carta *)malloc(quant * sizeof(Carta));
 
-    CartaListaBaralhoVencedor *aux_lista = lista->inicio;
+    while(vencedor->monte->topo != NULL){
 
-    while(vencedor->monte != NULL){
+        vetor[cont].valor = vencedor->monte->topo->carta->valor;
+        vetor[cont].naipe = vencedor->monte->topo->carta->naipe;
 
-        if(aux_lista == NULL){
-            aux_lista = vencedor->monte->topo;
-        }else{
-            CartaListaBaralhoVencedor *carta_v;
-
-            carta_v = vencedor->monte->topo;
-            carta_v->prox = vencedor->lista->inicio;
-            vencedor->lista->inicio = carta_v;
-            vencedor->monte->topo = vencedor->monte->topo->anterior;
-        }
+        cont ++;
+        vencedor->monte->topo = vencedor->monte->topo->anterior;
     }
+    printf("Entrou 1\n");
+
+    printf("\nIMPRESSAO DAS CARTAS: \n");
+
+    for(int i=0;i<quant;i++){
+        printf("VALOR %d <-> NAIPE %d\n", vetor[i].valor, vetor[i].naipe);
+    }
+
+    deletaMonte(vencedor->monte);
+
+    vencedor->monte = criaMontePlayer();
+
+    Carta *aux;
+    aux = (Carta *)malloc(sizeof(Carta));
+
+    // ORDENA
+    for(int i = 1;i < quant;i++){
+        aux->valor = vetor[i].valor;
+        aux->naipe = vetor[i].naipe;
+
+        int j = i - 1;
+        while (aux->valor > vetor[j].valor && j >= 0){
+            vetor[j+1].valor = vetor[j].valor;
+            vetor[j+1].naipe = vetor[j].naipe;
+            j--;
+        }
+        vetor[j+1].valor = aux->valor;
+        vetor[j+1].naipe = aux->naipe;
+    }
+    printf("Entrou 2\n");
+
+    for (int i = 0; i < quant; i++) {
+        CartaMontePlayer *carta_monte;
+        carta_monte = (CartaMontePlayer *)malloc(sizeof(CartaMontePlayer));
+        
+        carta_monte->carta = (Carta *)malloc(sizeof(Carta));
+        carta_monte->carta->naipe = vetor[i].naipe;
+        carta_monte->carta->valor = vetor[i].valor;
+
+        if (vencedor->monte->topo == NULL) {
+            carta_monte->anterior = NULL;
+        } else {
+            carta_monte->anterior = vencedor->monte->topo;
+        }
+        vencedor->monte->topo = carta_monte;
+    }
+
+    printf("Entrou 3\n");
+
+    free(vetor);
+
+    printf("Saiu copia cartas\n");
 }
-
-void selectionSortCartas(ListaPlayer *lista_jogadores) {
-
-    Jogador *aux = lista_jogadores->inicio;
-
-    while (aux != NULL) {
-        if (aux->venceu == 1) {
-            break;
-        }
-        aux = aux->prox;
-    }
-
-    CartaListaBaralhoVencedor *i, *j, *min;
-
-    for (i = aux->lista; i != NULL; i = i->prox) {
-        min = i;
-
-        for (j = i->prox; j != NULL; j = j->prox) {
-            
-            if (j->carta->valor < min->carta->valor ||
-               (j->carta->valor == min->carta->valor && j->carta->naipe < min->carta->naipe)) {
-                min = j;
-            }
-        }
-
-        // Troca os dados dos nós
-        Carta *temp = i->carta;
-        i->carta = min->carta;
-        min->carta = temp;
-    }
-}
-
 
 void imprimeCartasVencedor(ListaPlayer *lista_jogador){
 
@@ -147,13 +161,11 @@ void imprimeCartasVencedor(ListaPlayer *lista_jogador){
         aux = aux->prox;
     }
 
-    CartaListaBaralhoVencedor *aux2;
-    aux2 = aux->lista->inicio;
-
     printf("\nIMPRESSAO DAS CARTAS DO VENCEDOR: \n");
 
-    while(aux->lista != NULL){
-        printf("VALOR %d <-> NAIPE %d\n", aux2->carta->valor, aux2->carta->naipe);
+    while(aux->monte->topo != NULL){
+        printf("VALOR %d <-> NAIPE %d\n", aux->monte->topo->carta->valor, aux->monte->topo->carta->naipe);
+        aux->monte->topo = aux->monte->topo->anterior;
     }
 }
 

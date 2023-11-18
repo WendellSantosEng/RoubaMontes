@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <unistd.h>
 
 /*enum{
     AS = 1,
@@ -26,6 +27,7 @@ typedef struct Carta{ //  ESTRUTURA DA CARTA
 typedef struct CartaMontePlayer{ // ELEMENTO DA PILHA DO MONTE DO JOGADOR
     Carta *carta;
     struct CartaMontePlayer *anterior;
+    struct CartaMontePlayer *prox;
 }CartaMontePlayer;
 
 typedef struct MontePlayer{ // PILHA DO MONTE DO JOGADOR
@@ -33,13 +35,8 @@ typedef struct MontePlayer{ // PILHA DO MONTE DO JOGADOR
     int quant;
 }MontePlayer;
 
-typedef struct CartaListaBaralhoVencedor{ // ELEMENTO DA LISTA DO MONTE DO JOGADOR -> UTILIZADA CASO O JOG SEJA UM VENCEDOR
-    Carta *carta;
-    struct CartaListaBaralhoVencedor *prox;
-}CartaListaBaralhoVencedor;
-
 typedef struct ListaBaralhoVencedor{ // LISTA DO MONTE DO JOGADOR -> UTILIZADA CASO O JOG SEJA UM VENCEDOR
-    CartaListaBaralhoVencedor *inicio;
+    CartaMontePlayer *inicio;
 }ListaBaralhoVencedor;
 
 
@@ -85,6 +82,7 @@ typedef struct Descarte{ // LISTA DO DESCARTE
 
 MonteBaralho *criaMonteCompra(int quant_jog); //Cria o monte de cartas
 void deletaMonteBaralho(MonteBaralho *monte_compra); //Libera a memoria do *MonteBaralho, ao fim do jogo
+void deletaMonte(MontePlayer *monte); // deleta um so monte
 
 void embaralha(MonteBaralho *monte_compra); //Algoritimo de embaralhamento de Pilha
 Carta *compra(MonteBaralho *monte_compra); //Realiza a "compra" de uma carta, retorna uma *carta
