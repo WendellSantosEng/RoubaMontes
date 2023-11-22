@@ -41,7 +41,6 @@ void deletaMonte(MontePlayer *monte) {
 int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
 
     printf("A Carta comprada carta e: %d de %d\n", carta_comprada->valor, carta_comprada->naipe);
-    vez = vez+1;
 
     Jogador *atual;
     atual = lista_jogador->inicio;
@@ -86,7 +85,6 @@ int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
 
 int empilhaDescarte(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada, Carta *carta_descarte) {
 
-    vez = vez+1;
 
     printf("A Carta comprada e: %d de %d\n", carta_comprada->valor, carta_comprada->naipe);
     if(carta_descarte != NULL){
@@ -167,7 +165,6 @@ int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
     Jogador *atual;
     atual = lista_jogador->inicio;
     int cont = 0, ver = 0;
-    vez = vez+1;
     MontePlayer *monte_dps_roubo;
 
     printf("A carta comprada e: %d de %d\n",  carta_comprada->valor, carta_comprada->naipe);
@@ -191,6 +188,10 @@ int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
         monte_da_vez = atual->monte;
     }
 
+    printf("VEZ DO %d\n\n", vez);
+
+    int quant_roubo;
+
     Jogador *aux2 = lista_jogador->inicio;
 
     while(aux2 != NULL){
@@ -202,17 +203,25 @@ int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
             if(ver == 1){
                 monte_saida = aux2->monte;
 
-                monte_dps_roubo = roubaMonte(monte_da_vez, monte_saida, carta_comprada);
+                monte_dps_roubo = roubaMonte(monte_da_vez, monte_saida, carta_comprada, &quant_roubo);
 
-                if(ver == 1){
+                if(monte_dps_roubo != NULL){
 
                     atual->monte = monte_dps_roubo;
-                    printf("DEPOIS QUE ROUBOUn\n");
+
+                    CartaMontePlayer *topo_original;
+                    topo_original = atual->monte->topo;
+
+                    printf("DEPOIS QUE ROUBOU\n%d quant\n", atual->monte->quant);
                     while(atual->monte->topo != NULL){
-                        printf("CARTA = %d, Naipe = %d\n", atual->monte->topo->carta->valor, atual->monte->topo->carta->naipe);
+                        printf("CARTA POS ROUBO = %d, Naipe = %d\n", atual->monte->topo->carta->valor, atual->monte->topo->carta->naipe);
                         atual->monte->topo = atual->monte->topo->anterior;
                     }
-                    aux2->monte = monte_saida;
+                    atual->monte->topo = topo_original;
+
+                    atual->monte->quant = quant_roubo;
+
+                    aux2->monte->quant = 0;
 
                     return 1;
                 }else{
@@ -226,7 +235,7 @@ int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
     return 0;
 }
 
-MontePlayer *roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *carta_comprada){
+MontePlayer *roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *carta_comprada, int *quant_roubo){
 
     // DESEMPILHA PRA UMA PILHA AUX
 
@@ -255,8 +264,6 @@ MontePlayer *roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Ca
 
         monte_saida->topo = monte_saida->topo->anterior;
 
-        monte_saida->quant --;
-
         free(aux);
     };
 
@@ -264,7 +271,7 @@ MontePlayer *roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Ca
     auxapaga = monte_aux->topo;
 
     while(monte_aux->topo != NULL){
-        printf("CARTA = %d, Naipe = %d\n", monte_aux->topo->carta->valor, monte_aux->topo->carta->naipe);
+        printf("CARTA= MONTE SAIDA = %d, Naipe = %d\n", monte_aux->topo->carta->valor, monte_aux->topo->carta->naipe);
         monte_aux->topo = monte_aux->topo->anterior;
     }
 
@@ -285,7 +292,7 @@ MontePlayer *roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Ca
             novo->anterior = monte_destino->topo;
             monte_destino->topo = novo;
         }
-        printf("RECEBEU %d de %d\n", monte_destino->topo->carta->valor, monte_destino->topo->carta->valor);
+
         aux = monte_aux->topo;
         monte_aux->topo = monte_aux->topo->anterior;
         monte_destino->quant++;
@@ -295,10 +302,15 @@ MontePlayer *roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Ca
         free(aux);
     };
 
+    CartaMontePlayer *topo_original;
+    topo_original = monte_destino->topo;
+
     while(monte_destino->topo != NULL){
-        printf("CARTAdestino = %d, Naipe = %d\n", monte_destino->topo->carta->valor, monte_destino->topo->carta->naipe);
+        printf("CARTA DESTINO = %d, Naipe = %d\n", monte_destino->topo->carta->valor, monte_destino->topo->carta->naipe);
         monte_destino->topo = monte_destino->topo->anterior;
     }
+
+    monte_destino->topo = topo_original;
 
     // COLOCA A CARTA COMPRADA NO TOPO
 
@@ -310,9 +322,10 @@ MontePlayer *roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Ca
     monte_destino->topo = novo;
     printf("\nA quantidade de cartas no monte ANTES e: %d , saida = %d, + 1 comprada\n",monte_destino->quant, saida);
     monte_destino->quant ++;
-    monte_destino->quant = monte_destino->quant + saida;
+    //monte_destino->quant = monte_destino->quant + saida;
     printf("\nA quantidade de cartas no monte DEPOIS e: %d\n",monte_destino->quant);
+
+    (*quant_roubo) = monte_destino->quant;
 
     return monte_destino;
 }
-
