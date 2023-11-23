@@ -17,8 +17,6 @@ MonteBaralho *criaMonteCompra(int quant_jog){
         }
     }
 
-    printf("\nREPEAT = %d\n",repeat);
-
     while(repeat != 0){
         for(int j=0;j<4;j++){
             for(int k=0;k<13;k++){
@@ -83,6 +81,22 @@ Carta *compra(MonteBaralho *monte_compra){
         if(carta != NULL){
             monte_compra ->topo = monte_compra->topo->anterior;
             free(aux);
+
+
+            /*int layer[3][3];
+
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+
+                    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                    SetConsoleTextAttribute(hConsole, 7 | (15 << 4));  // Cor de fundo branca // 7 é o código para branco
+
+                    printf("%3d ", layer[i][j]);
+                }
+                printf("\n");
+            }*/
+            
+
             return carta;
         }else{
             return NULL;

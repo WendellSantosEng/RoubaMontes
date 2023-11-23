@@ -2,7 +2,6 @@
 
 /*--------------------------------FUNÇÕES DO DESCARTE--------------------------------*/
 
-
 Descarte *criaDescarte(){
     Descarte *descarte;
     descarte = (Descarte *)malloc(sizeof(Descarte));
@@ -32,7 +31,8 @@ void descartaCarta(Descarte *descarte, Carta *carta){ // INSERÇÃO NO INICIO O(
 }
 
 int RetiraCarta(ListaPlayer *lista_jogador, int vez, Descarte *descarte, Carta *carta_comprada) {
-    printf("\nO descarte atual e: \n");
+    
+    printf("\n--------------*DESCARTE ATUAL*--------------\n\n");
     imprimeDescarte(descarte);
 
     int ver;
@@ -50,10 +50,10 @@ int RetiraCarta(ListaPlayer *lista_jogador, int vez, Descarte *descarte, Carta *
         atual = atual->prox;
     }
 
-    if (atual->carta->valor == carta_comprada->valor) {
-        if (anterior == NULL) {
+    if(atual->carta->valor == carta_comprada->valor){
+        if(anterior == NULL){
             descarte->inicio = atual->prox;
-        } else {
+        }else{
             anterior->prox = atual->prox;
         }
         retorno = atual->carta;
@@ -71,13 +71,13 @@ int RetiraCarta(ListaPlayer *lista_jogador, int vez, Descarte *descarte, Carta *
 }
 
 
-void imprimeDescarte(Descarte *descarte) {
+void imprimeDescarte(Descarte *descarte){
     CartaDescarte *aux;
     aux = descarte->inicio;
     int cont = 0;
 
     if (descarte->inicio == NULL) {
-        printf("DESCARTE VAZIO\n");
+        printf("\n\nDESCARTE VAZIO\n\n");
         return;
     }
 

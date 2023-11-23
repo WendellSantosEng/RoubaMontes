@@ -35,7 +35,7 @@ void listaJogadores(ListaPlayer *lista_jogador, int quant_jog){
 
 Jogador *preencheJogador(Jogador *novo,int i){
 
-    printf("Insira o nome do jogador %d: ", i + 1);
+    printf("\n ->->->->->-> NOME DO JOGADOR %d <-<-<-<-<-<- ", i + 1);
     setbuf(stdin,NULL);
     fgets(novo->nome, 30, stdin);
     setbuf(stdin,NULL);
@@ -82,7 +82,6 @@ ListaBaralhoVencedor *criaBaralhoVencedor(){
 }
 
 void copiaCartasVencedor(Jogador *vencedor) {
-    printf("Entrou copia cartas\n");
 
     int quant = vencedor->monte->quant;
     int cont=0;
@@ -98,9 +97,8 @@ void copiaCartasVencedor(Jogador *vencedor) {
         cont ++;
         vencedor->monte->topo = vencedor->monte->topo->anterior;
     }
-    printf("Entrou 1\n");
 
-    printf("\nIMPRESSAO DAS CARTAS: \n");
+    printf("\nIMPRESSAO DAS CARTAS DO VENCEDOR DESORDENADAS: \n");
 
     for(int i=0;i<quant;i++){
         printf("VALOR %d <-> NAIPE %d\n", vetor[i].valor, vetor[i].naipe);
@@ -127,7 +125,6 @@ void copiaCartasVencedor(Jogador *vencedor) {
         vetor[j+1].valor = aux->valor;
         vetor[j+1].naipe = aux->naipe;
     }
-    printf("Entrou 2\n");
 
     for (int i = 0; i < quant; i++) {
         CartaMontePlayer *carta_monte;
@@ -145,11 +142,7 @@ void copiaCartasVencedor(Jogador *vencedor) {
         vencedor->monte->topo = carta_monte;
     }
 
-    printf("Entrou 3\n");
-
     free(vetor);
-
-    printf("Saiu copia cartas\n");
 }
 
 void imprimeCartasVencedor(ListaPlayer *lista_jogador){
@@ -161,7 +154,7 @@ void imprimeCartasVencedor(ListaPlayer *lista_jogador){
         aux = aux->prox;
     }
 
-    printf("\nIMPRESSAO DAS CARTAS DO VENCEDOR: \n");
+    printf("\nIMPRESSAO DAS CARTAS DO VENCEDOR ORDENADAS: \n");
 
     while(aux->monte->topo != NULL){
         printf("VALOR %d <-> NAIPE %d\n", aux->monte->topo->carta->valor, aux->monte->topo->carta->naipe);
@@ -194,7 +187,10 @@ void imprimirRanking(ListaPlayer *lista){
 
     Jogador *atual = lista->inicio;
     while (atual != NULL) {
-        printf("Nome: %s, Quantidade de Cartas: %d\n", atual->nome, atual->quant_carta);
+        printf("---------------------------------------------------------------\n");
+        printf("|      NOME : %s  <-->  Quantidade de Cartas: %d      |\n", atual->nome, atual->quant_carta);
+        printf("---------------------------------------------------------------");
+
         atual = atual->prox;
     }
 }

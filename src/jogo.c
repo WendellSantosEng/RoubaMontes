@@ -2,7 +2,6 @@
 
 /*--------------------------------FUNÇÕES DO JOGO--------------------------------*/
 
-
 MontePlayer *criaMontePlayer(){
     MontePlayer *monte;
     monte = (MontePlayer *)malloc(sizeof(MontePlayer));
@@ -40,7 +39,8 @@ void deletaMonte(MontePlayer *monte) {
 
 int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
 
-    printf("A Carta comprada carta e: %d de %d\n", carta_comprada->valor, carta_comprada->naipe);
+    printf("\n-------------------CARTA COMPRADA-------------------\n");
+    printf(" %d de %d\n\n", carta_comprada->valor, carta_comprada->naipe);
 
     Jogador *atual;
     atual = lista_jogador->inicio;
@@ -51,7 +51,6 @@ int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
     if(atual->monte->topo == NULL){
         return 0;
     }
-    int cont =1;
     CartaMontePlayer *carta_nova;
     carta_nova = (CartaMontePlayer *)malloc(sizeof(CartaMontePlayer));
 
@@ -61,7 +60,8 @@ int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
     
     if(atual->num_jogador == vez && atual->monte->topo != NULL){
 
-        printf("A carta do topo do monte do jogador %d e: %d de %d\n", atual->num_jogador , atual->monte->topo->carta->valor, atual->monte->topo->carta->naipe);
+        printf("\n-------------------CARTA COMPRADA-------------------\n");
+        printf(" %d de %d\n\n", carta_comprada->valor, carta_comprada->naipe);
 
         if(atual->monte->topo->carta->valor == carta_comprada->valor){
 
@@ -71,9 +71,8 @@ int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
             atual->monte->topo = carta_nova;
             atual->monte->quant ++;
 
-            printf("A carta esta em seu monte agora.\n");
-
-            printf("A quantidade de cartas no monte do jogador %d e: %d",atual->num_jogador ,atual->monte->quant);
+            printf("\n\n-------------------CARTA NO SEU MONTE-------------------\n\n");
+            printf("\n----------QUANTIDADE DE CARTAS NO SEU MONTE e: %d-------------------\n\n",atual->monte->quant);
 
             return 1;
         }
@@ -86,9 +85,12 @@ int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
 int empilhaDescarte(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada, Carta *carta_descarte) {
 
 
-    printf("A Carta comprada e: %d de %d\n", carta_comprada->valor, carta_comprada->naipe);
+    printf("\n-------------------CARTA COMPRADA-------------------\n");
+    printf(" %d de %d\n", carta_comprada->valor, carta_comprada->naipe);
+
     if(carta_descarte != NULL){
-        printf("A Carta do descarte e: %d de %d\n", carta_descarte->valor, carta_descarte->naipe);
+        printf("\n------------------CARTA DO COMPRADA-----------------\n");
+        printf(" %d de %d\n", carta_descarte->valor, carta_descarte->naipe);
     }
 
     if(carta_descarte != NULL){
@@ -109,8 +111,8 @@ int empilhaDescarte(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada, 
             atual->monte->topo = carta_nova2;
             atual->monte->quant++;
 
-            printf("Ambas agora estao em meu monte.\n");
-            printf("A quantidade de cartas no meu monte e: %d\n", atual->monte->quant);
+            printf("--------------AMBAS ESTAO EM SEU MONTES---------------\n");
+            printf("\n-------QUANTIDADE DE CARTAS NO SEU MONTE e: %d-------\n",atual->monte->quant);
 
             return 1;
         }
@@ -134,8 +136,8 @@ int empilhaDescarte(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada, 
             atual->monte->topo = carta_nova2;
             atual->monte->quant++;
 
-            printf("Ambas agora estão em meu monte.\n");
-            printf("A quantidade de cartas no seu monte é: %d\n", atual->monte->quant);
+            printf("--------------AMBAS ESTAO EM SEU MONTES---------------\n");
+            printf("\n-------QUANTIDADE DE CARTAS NO SEU MONTE e: %d-------\n",atual->monte->quant);
 
             return 1;
         }
@@ -143,7 +145,6 @@ int empilhaDescarte(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada, 
 
     return 0;
 }
-
 
 int verificaCartaTopo(Jogador *atual,Carta *carta_comprada){
 
@@ -155,19 +156,18 @@ int verificaCartaTopo(Jogador *atual,Carta *carta_comprada){
     }else{
         return 0;
     }
-
     return 0;
 }
-
 
 int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
 
     Jogador *atual;
     atual = lista_jogador->inicio;
-    int cont = 0, ver = 0;
+    int ver = 0;
     MontePlayer *monte_dps_roubo;
 
-    printf("A carta comprada e: %d de %d\n",  carta_comprada->valor, carta_comprada->naipe);
+    printf("\n-------------------CARTA COMPRADA-------------------\n");
+    printf(" %d de %d\n", carta_comprada->valor, carta_comprada->naipe);
 
     if(lista_jogador->inicio == NULL){
         return 0;
@@ -188,8 +188,6 @@ int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
         monte_da_vez = atual->monte;
     }
 
-    printf("VEZ DO %d\n\n", vez);
-
     int quant_roubo;
 
     Jogador *aux2 = lista_jogador->inicio;
@@ -205,23 +203,11 @@ int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
 
                 monte_dps_roubo = roubaMonte(monte_da_vez, monte_saida, carta_comprada, &quant_roubo);
 
-                if(monte_dps_roubo != NULL){
+                if(monte_dps_roubo != NULL){ // usado apenas pra ter 100% de certeza
 
-                    atual->monte = monte_dps_roubo;
-
-                    CartaMontePlayer *topo_original;
-                    topo_original = atual->monte->topo;
-
-                    printf("DEPOIS QUE ROUBOU\n%d quant\n", atual->monte->quant);
-                    while(atual->monte->topo != NULL){
-                        printf("CARTA POS ROUBO = %d, Naipe = %d\n", atual->monte->topo->carta->valor, atual->monte->topo->carta->naipe);
-                        atual->monte->topo = atual->monte->topo->anterior;
-                    }
-                    atual->monte->topo = topo_original;
-
-                    atual->monte->quant = quant_roubo;
-
-                    aux2->monte->quant = 0;
+                    atual->monte = monte_dps_roubo; //iguala o monte ao do jogador
+                    atual->monte->quant = quant_roubo; // iguala a qauntidade
+                    aux2->monte->quant = 0; // zera o roubado
 
                     return 1;
                 }else{
@@ -238,8 +224,6 @@ int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
 MontePlayer *roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Carta *carta_comprada, int *quant_roubo){
 
     // DESEMPILHA PRA UMA PILHA AUX
-
-    int saida = monte_saida->quant;
 
     MontePlayer *monte_aux;
     monte_aux = criaMontePlayer();
@@ -267,16 +251,6 @@ MontePlayer *roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Ca
         free(aux);
     };
 
-    CartaMontePlayer *auxapaga;
-    auxapaga = monte_aux->topo;
-
-    while(monte_aux->topo != NULL){
-        printf("CARTA= MONTE SAIDA = %d, Naipe = %d\n", monte_aux->topo->carta->valor, monte_aux->topo->carta->naipe);
-        monte_aux->topo = monte_aux->topo->anterior;
-    }
-
-    monte_aux->topo = auxapaga;
-
     while(monte_aux->topo != NULL){
 
         CartaMontePlayer *aux;
@@ -302,16 +276,6 @@ MontePlayer *roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Ca
         free(aux);
     };
 
-    CartaMontePlayer *topo_original;
-    topo_original = monte_destino->topo;
-
-    while(monte_destino->topo != NULL){
-        printf("CARTA DESTINO = %d, Naipe = %d\n", monte_destino->topo->carta->valor, monte_destino->topo->carta->naipe);
-        monte_destino->topo = monte_destino->topo->anterior;
-    }
-
-    monte_destino->topo = topo_original;
-
     // COLOCA A CARTA COMPRADA NO TOPO
 
     CartaMontePlayer *novo;
@@ -320,10 +284,7 @@ MontePlayer *roubaMonte(MontePlayer *monte_destino, MontePlayer *monte_saida, Ca
     novo->carta = carta_comprada;
     novo->anterior = monte_destino->topo;
     monte_destino->topo = novo;
-    printf("\nA quantidade de cartas no monte ANTES e: %d , saida = %d, + 1 comprada\n",monte_destino->quant, saida);
     monte_destino->quant ++;
-    //monte_destino->quant = monte_destino->quant + saida;
-    printf("\nA quantidade de cartas no monte DEPOIS e: %d\n",monte_destino->quant);
 
     (*quant_roubo) = monte_destino->quant;
 

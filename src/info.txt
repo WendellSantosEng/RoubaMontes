@@ -1,0 +1,47 @@
+
+
+----------------------------------------------------------------------------------------------------------------------------
+| DISCIPLINA: Trabalho Pratico AED's (Algoritmos e Estrutura de Dados) 2                                                    |
+| NOME DO ALUNO: WENDELL RESENDE DOS SANTOS                                                                                 |
+| CURSO: ENGENHARIA DA COMPUTACAO                                                                                           |
+| UNIVERSIDADE: UEMG- UNIDADE DIVINOPOLIS                                                                                   |
+|                                                                                                                           |
+| Jogo de Cartas Rouba-Montes                                                                                               |
+|                                                                                                                           |
+| Organizacao do codigo:                                                                                                    |
+|                                                                                                                           |
+| Visto as regras, meu programa esta disposto em 6 arquivos:                                                                |
+|                                                                                                                           |
+| + baralhoPrincipal.c = Contem a logica do baralho de compras, instanciacao, criacao de cartas e embaralhamento.           |
+|                                                                                                                           |
+| + descarte.c:                                                                                                             |
+|                                                                                                                           |
+| Contem a logica da area do descarte de cartas, uma funcao                                                                 |
+| a qual percorre a Lista* retira uma carta, e outra a qual adiciona uma carta na Lista*                                    |
+|                                                                                                                           |
+| + jogo.c:                                                                                                                 |
+|                                                                                                                           |
+| O qual contem a logica principal do meu Rouba-Montes, associada ao monte de cada jogador. Em suas funcoes, temos          |
+| que, empilhaCarta coloca a carta comprada no topo do monte, empilhaDescarte coloca tanto a carta comprada, quanto         |
+| a carta da area do descarte no monte do jogador. As outras funcoes contem a logica de roubas os montes: verifica          |
+| o topo de cada monte e se caso for igual, empilha todo ele, no monte do jogador da vez.                                   |
+|                                                                                                                           |
+| vitoria.c = Contem a logica que acontece quando o jogo termina, ou seja quando ha um vencedor.                            |
+|                                                                                                                           |
+| main.c:                                                                                                                   |
+|                                                                                                                           |
+| O programa acontece de forma que um comando de repeticao va de 0 a quant_jog, e evitando repeticao, cada vez que          |
+| quaisquer funcoes sejam chamadas, e passado por parametro o indice o for, dessa forma se sabe qual o jogador esta         |
+| jogando, dessa vez. Apos o retorno da compra nao ser valido, a logica se encerra e e proclamado um vencedor. Cha -        |
+| ma uma funcao a qual retorna os vencedores, outra que repassa a Pilha** de cartas daquele jogador para uma Lista*         |
+| que esta na struct jogador o tempo todo, porem nunca instanciada. Logo apos ocorre a ordenacao das cartas e em -          |
+| prime em ordem crescente - nos valores: AS, DOIS, TRES, QUATRO, CINCO, SEIS, SETE, OITO, NOVE, DEZ, DAMA, VALETE,         |
+| REI -, Apos essa logica, e mostrado um renking de colocação com os Jogadores                                              |
+| do maior para o menor.                                                                                                    |
+|                                                                                                                           |
+| *Lista, **Pilha = Estrutura de Dados.                                                                                     |
+|                                                                                                                           |
+|                                                                                                                           |
+|                                                                                                                           |
+----------------------------------------------------------------------------------------------------------------------------
+

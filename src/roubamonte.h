@@ -3,6 +3,7 @@
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
+#include <windows.h>
 
 /*enum{
     AS = 1,
@@ -40,7 +41,6 @@ typedef struct ListaBaralhoVencedor{ // LISTA DO MONTE DO JOGADOR -> UTILIZADA C
 }ListaBaralhoVencedor;
 
 
-
 typedef struct Jogador{ // ELEMENTO JOGADOR DA LISTA DE JOGADORES
     char nome[30];
     struct Jogador *prox;
@@ -73,8 +73,6 @@ typedef struct CartaDescarte{ // ELEMENTO DA CARTA DO DESCARTE
 typedef struct Descarte{ // LISTA DO DESCARTE
     CartaDescarte *inicio;
 }Descarte;
-
-
 
 
 
