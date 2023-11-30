@@ -40,7 +40,7 @@ void deletaMonte(MontePlayer *monte) {
 int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
 
     printf("\n-------------------CARTA COMPRADA-------------------\n");
-    printf(" %d de %d\n\n", carta_comprada->valor, carta_comprada->naipe);
+    imprimircarta(carta_comprada);
 
     Jogador *atual;
     atual = lista_jogador->inicio;
@@ -61,7 +61,7 @@ int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
     if(atual->num_jogador == vez && atual->monte->topo != NULL){
 
         printf("\n-------------------CARTA COMPRADA-------------------\n");
-        printf(" %d de %d\n\n", carta_comprada->valor, carta_comprada->naipe);
+        imprimircarta(carta_comprada);
 
         if(atual->monte->topo->carta->valor == carta_comprada->valor){
 
@@ -86,11 +86,11 @@ int empilhaDescarte(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada, 
 
 
     printf("\n-------------------CARTA COMPRADA-------------------\n");
-    printf(" %d de %d\n", carta_comprada->valor, carta_comprada->naipe);
+    imprimircarta(carta_comprada);
 
     if(carta_descarte != NULL){
         printf("\n------------------CARTA DO COMPRADA-----------------\n");
-        printf(" %d de %d\n", carta_descarte->valor, carta_descarte->naipe);
+        imprimircarta(carta_descarte);
     }
 
     if(carta_descarte != NULL){
@@ -167,7 +167,7 @@ int verificaTopoMonte(ListaPlayer *lista_jogador,Carta *carta_comprada,int vez){
     MontePlayer *monte_dps_roubo;
 
     printf("\n-------------------CARTA COMPRADA-------------------\n");
-    printf(" %d de %d\n", carta_comprada->valor, carta_comprada->naipe);
+    imprimircarta(carta_comprada);
 
     if(lista_jogador->inicio == NULL){
         return 0;

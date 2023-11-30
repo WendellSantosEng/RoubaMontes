@@ -98,12 +98,6 @@ void copiaCartasVencedor(Jogador *vencedor) {
         vencedor->monte->topo = vencedor->monte->topo->anterior;
     }
 
-    printf("\nIMPRESSAO DAS CARTAS DO VENCEDOR DESORDENADAS: \n");
-
-    for(int i=0;i<quant;i++){
-        printf("VALOR %d <-> NAIPE %d\n", vetor[i].valor, vetor[i].naipe);
-    }
-
     deletaMonte(vencedor->monte);
 
     vencedor->monte = criaMontePlayer();
@@ -156,32 +150,38 @@ void imprimeCartasVencedor(ListaPlayer *lista_jogador){
 
     printf("\nIMPRESSAO DAS CARTAS DO VENCEDOR ORDENADAS: \n");
 
+    CartaMontePlayer *topo_original = aux->monte->topo;
+
     while(aux->monte->topo != NULL){
-        printf("VALOR %d <-> NAIPE %d\n", aux->monte->topo->carta->valor, aux->monte->topo->carta->naipe);
+        imprimircarta(aux->monte->topo->carta);
         aux->monte->topo = aux->monte->topo->anterior;
     }
+
+    aux->monte->topo = topo_original;
+}
+
+void trocarJogadores(Jogador *a, Jogador *b) {
+    Jogador temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
 void ordenarJogadoresPorQuantidadeDeCartas(ListaPlayer *lista_jogadores) {
     Jogador *i, *j, *min;
 
-    // Percorre a lista de jogadores
     for (i = lista_jogadores->inicio; i != NULL; i = i->prox) {
         min = i;
 
-        // Percorre os jogadores restantes
         for (j = i->prox; j != NULL; j = j->prox) {
-            // Comparação considerando a quantidade de cartas
-            if (j->quant_carta < min->quant_carta) {
+            if (j->quant_carta > min->quant_carta) {
                 min = j;
             }
         }
-        // Troca os dados dos jogadores
-        Jogador temp = *i;
-        *i = *min;
-        *min = temp;
+
+        trocarJogadores(i, min);
     }
 }
+
 
 void imprimirRanking(ListaPlayer *lista){
 

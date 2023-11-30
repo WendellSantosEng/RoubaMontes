@@ -2,9 +2,13 @@
 
 ----------------------------------------------------------------------------------------------------------------------------
 | DISCIPLINA: Trabalho Pratico AED's (Algoritmos e Estrutura de Dados) 2                                                    |
+|                                                                                                                           |
 | NOME DO ALUNO: WENDELL RESENDE DOS SANTOS                                                                                 |
+|                                                                                                                           |
 | CURSO: ENGENHARIA DA COMPUTACAO                                                                                           |
-| UNIVERSIDADE: UEMG- UNIDADE DIVINOPOLIS                                                                                   |
+|                                                                                                                           |
+| UNIVERSIDADE: UEMG - UNIDADE DIVINOPOLIS                                                                                   |
+|                                                                                                                           |
 |                                                                                                                           |
 | Jogo de Cartas Rouba-Montes                                                                                               |
 |                                                                                                                           |

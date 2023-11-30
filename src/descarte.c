@@ -89,7 +89,8 @@ void imprimeDescarte(Descarte *descarte){
     aux = descarte->inicio;  // Reinicializa aux para o início da lista
 
     for (int i = 0; i < cont; i++) {
-        printf("Carta Descarte numero %d: %d de %d\n", i + 1, aux->carta->valor, aux->carta->naipe);
+        printf("Carta Descarte: ");
+        imprimircarta(aux->carta);
         aux = aux->prox;
     }
 }

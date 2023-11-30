@@ -84,6 +84,7 @@ void deletaMonte(MontePlayer *monte); // deleta um so monte
 
 void embaralha(MonteBaralho *monte_compra); //Algoritimo de embaralhamento de Pilha
 Carta *compra(MonteBaralho *monte_compra); //Realiza a "compra" de uma carta, retorna uma *carta
+void imprimircarta(Carta *carta);
 
 /*------------------------Manipulação dos montes--------------------*/
 

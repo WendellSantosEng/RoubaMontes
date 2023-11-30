@@ -120,7 +120,7 @@ int main(){
 
             imprimeCartasVencedor(lista_jogador);
 
-            void ordenarJogadoresPorQuantidadeDeCartas(ListaPlayer *lista_jogadores);
+            ordenarJogadoresPorQuantidadeDeCartas(lista_jogador);
             
             sleep(1);
 
