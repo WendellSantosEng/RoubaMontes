@@ -6,7 +6,7 @@ int main(){
 
     printf("-----------------------------------------------------------------------------------\n");
     printf("|                                                                                  |\n");
-    printf("|                 BEM VINDO AO JOGO ROUBA-MONTES                                   |\n\n");
+    printf("|                 BEM VINDO AO JOGO ROUBA-MONTES                                   |\n");
     printf("|                                                                                  |\n");
     printf("-----------------------------------------------------------------------------------\n");
 
@@ -27,7 +27,7 @@ int main(){
             fclose(arquivo);
         }
     }else if(info == 2){
-        printf(" => Voce escolheu NAO. As regras nao serao impressas.\n");
+        printf(" => Voce escolheu NAO. As regras nao serao impressas.\n\n");
     }else{
         printf(" => Opcao invalida. Por favor, escolha 1 (SIM) ou 2 (NAO).\n");
     }
@@ -120,11 +120,9 @@ int main(){
 
             imprimeCartasVencedor(lista_jogador);
 
-            ordenarJogadoresPorQuantidadeDeCartas(lista_jogador);
+            ordenarJogadoresPorQuantidadeDeCartas(lista_jogador,quant_jog);
             
             sleep(1);
-
-            imprimirRanking(lista_jogador);
 
             printf("\n\n\nFIM DE JOGO\n\n");
             break;

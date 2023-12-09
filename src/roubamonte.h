@@ -5,22 +5,6 @@
 #include <unistd.h>
 #include <windows.h>
 
-/*enum{
-    AS = 1,
-    DOIS = 2,
-    TRES = 3,
-    QUATRO = 4,
-    CINCO = 5,
-    SEIS = 6,
-    SETE = 7,
-    OITO = 8,
-    NOVE = 9,
-    DEZ = 10,
-    DAMA = 11,
-    VALETE = 12,
-    REI = 13,
-};*/
-
 typedef struct Carta{ //  ESTRUTURA DA CARTA
     int valor;
     int naipe;
@@ -130,12 +114,10 @@ ListaBaralhoVencedor *criaBaralhoVencedor();
 
 void copiaCartasVencedor(Jogador *vencedor);
 
-void selectionSortCartas(ListaPlayer *lista_jogadores);
-
 void imprimeCartasVencedor(ListaPlayer *lista_jogador);
 
-void ordenarJogadoresPorQuantidadeDeCartas(ListaPlayer *lista_jogadores);
+void ordenarJogadoresPorQuantidadeDeCartas(ListaPlayer *lista_jogadores, int quant_jog);
 
-void imprimirRanking(ListaPlayer *lista);
+void imprimirRanking(Jogador vetor[], int quant_jog);
 
 /*------------------------FIM DE JOGO--------------------*/

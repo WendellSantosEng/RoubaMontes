@@ -160,39 +160,66 @@ void imprimeCartasVencedor(ListaPlayer *lista_jogador){
     aux->monte->topo = topo_original;
 }
 
-void trocarJogadores(Jogador *a, Jogador *b) {
-    Jogador temp = *a;
-    *a = *b;
-    *b = temp;
-}
 
-void ordenarJogadoresPorQuantidadeDeCartas(ListaPlayer *lista_jogadores) {
-    Jogador *i, *j, *min;
+void ordenarJogadoresPorQuantidadeDeCartas(ListaPlayer *lista_jogadores, int quant_jog) {
+    
+    Jogador *aux;
+    aux = lista_jogadores->inicio;
 
-    for (i = lista_jogadores->inicio; i != NULL; i = i->prox) {
+    Jogador *vetor;
+    vetor = (Jogador *)malloc(quant_jog*sizeof(Jogador));
+
+    for(int i=0;i<quant_jog;i++){
+        vetor[i] = (*aux);
+        aux = aux->prox;
+    }
+
+    int i, j, min;
+    Jogador temp; 
+
+    //usando o insert sort para ordenar o vetor
+
+    for (i = 0; i < quant_jog - 1; i++) {
         min = i;
-
-        for (j = i->prox; j != NULL; j = j->prox) {
-            if (j->quant_carta > min->quant_carta) {
+        for (j = i + 1; j < quant_jog; j++) {
+            if (vetor[j].quant_carta < vetor[min].quant_carta) {
                 min = j;
             }
         }
-
-        trocarJogadores(i, min);
+        temp = vetor[min];
+        vetor[min] = vetor[i];
+        vetor[i] = temp;
     }
+
+    //inverte o vetor
+
+    int inicio = 0;
+    int fim = quant_jog - 1;
+
+    while (inicio < fim) {
+
+        Jogador temp = vetor[inicio];
+        vetor[inicio] = vetor[fim];
+        vetor[fim] = temp;
+
+        inicio++;
+        fim--;
+    }
+
+    imprimirRanking(vetor, quant_jog);
 }
 
 
-void imprimirRanking(ListaPlayer *lista){
+void imprimirRanking(Jogador vetor[], int quant_jog){
 
-    Jogador *atual = lista->inicio;
-    while (atual != NULL) {
+    for(int i=0; i<quant_jog;i++){
+
         printf("---------------------------------------------------------------\n");
-        printf("|      NOME : %s  <-->  Quantidade de Cartas: %d      |\n", atual->nome, atual->quant_carta);
+        printf("|      NOME : %s  <-->  Quantidade de Cartas: %d      |\n", vetor[i].nome, vetor[i].quant_carta);
         printf("---------------------------------------------------------------");
-
-        atual = atual->prox;
     }
+
+    free(vetor);
 }
 
 // FIM DAS FUNÇOES
