@@ -3,11 +3,13 @@
 ----------------------------------------------------------------------------------------------------------------------------
 | DISCIPLINA: Trabalho Pratico AED's (Algoritmos e Estrutura de Dados) 2                                                    |
 |                                                                                                                           |
-| NOME DO ALUNO: WENDELL RESENDE DOS SANTOS                                                                                 |
+| ALUNO: WENDELL RESENDE DOS SANTOS                                                                                         |
+|                                                                                                                           |
+| PROFESSOR: EDWALDO SOARES RODRIGUES                                                                                       |
 |                                                                                                                           |
 | CURSO: ENGENHARIA DA COMPUTACAO                                                                                           |
 |                                                                                                                           |
-| UNIVERSIDADE: UEMG - UNIDADE DIVINOPOLIS                                                                                   |
+| UNIVERSIDADE: UEMG - UNIDADE DIVINOPOLIS                                                                                  |
 |                                                                                                                           |
 |                                                                                                                           |
 | Jogo de Cartas Rouba-Montes                                                                                               |
@@ -40,7 +42,7 @@
 | ma uma funcao a qual retorna os vencedores, outra que repassa a Pilha** de cartas daquele jogador para uma Lista*         |
 | que esta na struct jogador o tempo todo, porem nunca instanciada. Logo apos ocorre a ordenacao das cartas e em -          |
 | prime em ordem crescente - nos valores: AS, DOIS, TRES, QUATRO, CINCO, SEIS, SETE, OITO, NOVE, DEZ, DAMA, VALETE,         |
-| REI -, Apos essa logica, e mostrado um renking de colocação com os Jogadores                                              |
+| REI -, Apos essa logica, e mostrado um renking de colocacao com os Jogadores                                              |
 | do maior para o menor.                                                                                                    |
 |                                                                                                                           |
 | *Lista, **Pilha = Estrutura de Dados.                                                                                     |

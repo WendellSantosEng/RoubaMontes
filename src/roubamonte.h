@@ -12,17 +12,12 @@ typedef struct Carta{ //  ESTRUTURA DA CARTA
 typedef struct CartaMontePlayer{ // ELEMENTO DA PILHA DO MONTE DO JOGADOR
     Carta *carta;
     struct CartaMontePlayer *anterior;
-    struct CartaMontePlayer *prox;
 }CartaMontePlayer;
 
 typedef struct MontePlayer{ // PILHA DO MONTE DO JOGADOR
     CartaMontePlayer *topo;
     int quant;
 }MontePlayer;
-
-typedef struct ListaBaralhoVencedor{ // LISTA DO MONTE DO JOGADOR -> UTILIZADA CASO O JOG SEJA UM VENCEDOR
-    CartaMontePlayer *inicio;
-}ListaBaralhoVencedor;
 
 
 typedef struct Jogador{ // ELEMENTO JOGADOR DA LISTA DE JOGADORES
@@ -32,7 +27,6 @@ typedef struct Jogador{ // ELEMENTO JOGADOR DA LISTA DE JOGADORES
     int quant_carta;
     int venceu;
     MontePlayer *monte;
-    ListaBaralhoVencedor *lista;
 }Jogador;
 
 typedef struct ListaPlayer{ // LISTA DA LISTA DE JOGADORES
@@ -109,8 +103,6 @@ void listaJogadores(ListaPlayer *lista_jogador, int quant_jog);
 Jogador *preencheJogador(Jogador *novo,int i);
 
 Jogador *verificaVencedor(ListaPlayer *lista_jogador); // Verifica qual monte tem mais cartas
-
-ListaBaralhoVencedor *criaBaralhoVencedor();
 
 void copiaCartasVencedor(Jogador *vencedor);
 

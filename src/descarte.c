@@ -70,7 +70,6 @@ int RetiraCarta(ListaPlayer *lista_jogador, int vez, Descarte *descarte, Carta *
     }
 }
 
-
 void imprimeDescarte(Descarte *descarte){
     CartaDescarte *aux;
     aux = descarte->inicio;

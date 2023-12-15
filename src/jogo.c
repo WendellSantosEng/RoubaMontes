@@ -72,7 +72,7 @@ int empilhaCarta(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada){
             atual->monte->quant ++;
 
             printf("\n\n-------------------CARTA NO SEU MONTE-------------------\n\n");
-            printf("\n----------QUANTIDADE DE CARTAS NO SEU MONTE e: %d-------------------\n\n",atual->monte->quant);
+            printf("\n----------QUANTIDADE DE CARTAS NO SEU MONTE E: %d-------------------\n\n",atual->monte->quant);
 
             return 1;
         }
@@ -89,7 +89,7 @@ int empilhaDescarte(ListaPlayer *lista_jogador, int vez, Carta *carta_comprada, 
     imprimircarta(carta_comprada);
 
     if(carta_descarte != NULL){
-        printf("\n------------------CARTA DO COMPRADA-----------------\n");
+        printf("\n------------------CARTA DO DESCARTE-----------------\n");
         imprimircarta(carta_descarte);
     }
 

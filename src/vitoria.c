@@ -71,16 +71,6 @@ Jogador *verificaVencedor(ListaPlayer *lista_jogador){
     return vencedor;
 }
 
-ListaBaralhoVencedor *criaBaralhoVencedor(){
-    ListaBaralhoVencedor *lbv;
-    lbv = (ListaBaralhoVencedor *)malloc(sizeof(ListaBaralhoVencedor));
-    if(lbv != NULL){
-        lbv->inicio = NULL;
-        return lbv;
-    }
-    return lbv;    
-}
-
 void copiaCartasVencedor(Jogador *vencedor) {
 
     int quant = vencedor->monte->quant;
